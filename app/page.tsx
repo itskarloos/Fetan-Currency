@@ -4,6 +4,7 @@ import React from "react";
 
 import NavBar from "@/components/shared/NavBar";
 import Hero from "@/components/shared/Hero";
+import Rate from "@/components/shared/Rate";
 
 export default function Home() {
 
@@ -15,6 +16,7 @@ export default function Home() {
     >
       <NavBar />
       <Hero />
+      <Rate />
      
     </div>
   );
