@@ -57,7 +57,7 @@ const ExchangeCard = () => {
         variant="outline"
         role="combobox"
         aria-expanded={open}
-        className="w-[full] md:w-[200px] justify-between text-gray-300 bg-gray-800 border-gray-700 hover:bg-gray-700 hover:text-gray-200"
+        className="w-[full] md:w-[200px] justify-between text-gray-300 bg-black border-gray-700 hover:bg-gray-700 hover:text-gray-200"
       >
         {value
           ? frameworks.find((framework) => framework.value === value)?.label
@@ -65,12 +65,12 @@ const ExchangeCard = () => {
         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </Button>
     </PopoverTrigger>
-    <PopoverContent className="w-[200px] p-0 bg-gray-800 border-gray-700">
-      <Command>
-        <CommandInput placeholder="Search Banks..." className="text-gray-300"/>
+    <PopoverContent className="w-[200px] p-0 bg-black border-gray-700">
+      <Command className="bg-black">
+        <CommandInput placeholder="Search Banks..." className=" text-gray-300" />
         <CommandList>
           <CommandEmpty className="text-gray-400">No Banks Found</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup >
             {frameworks.map((framework) => (
               <CommandItem
                 key={framework.value}
@@ -79,7 +79,7 @@ const ExchangeCard = () => {
                   setValue(currentValue === value ? "" : currentValue)
                   setOpen(false)
                 }}
-                className="text-gray-300 hover:bg-gray-700"
+                className="text-white hover:bg-gray-500"
               >
                 <Check
                   className={cn(
