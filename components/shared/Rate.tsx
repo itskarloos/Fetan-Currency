@@ -4,7 +4,7 @@ import ExchangeCard from './ExchangeCard'
 const Rate = () => {
   return (
     <div className="h-[100] w-full flex p-5 md:p-10 flex-col mt-10 gap-2">
-      <p className="text-base md:text-2xl text-white">
+      <p className="text-xl md:text-3xl text-white">
         Exchange Rate
       </p>
       <ExchangeCard />
