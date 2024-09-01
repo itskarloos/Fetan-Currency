@@ -24,7 +24,7 @@ import {
 const frameworks = [
   {
     value: "Cbe",
-    label: "CBE",
+    label: "Cbe",
   },
   {
     value: "Dashen",
