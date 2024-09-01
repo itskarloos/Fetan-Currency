@@ -2,7 +2,7 @@
 import React from "react";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
-import ThemeToggleButton from "./ThemeToggle";
+
 
 export function NavBar() {
   const navItems = [
@@ -34,7 +34,7 @@ export function NavBar() {
   
   return (
     <div className="relative  w-full">
-      <ThemeToggleButton />
+  
       <FloatingNav navItems={navItems} />
     </div>
   );
