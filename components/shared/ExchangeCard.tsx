@@ -57,11 +57,11 @@ const ExchangeCard = () => {
         variant="outline"
         role="combobox"
         aria-expanded={open}
-        className="w-[200px] justify-between"
+        className="w-[full] md:w-[200px] justify-between bg-black text-white"
       >
         {value
           ? frameworks.find((framework) => framework.value === value)?.label
-          : "Select framework..."}
+          : "Select Bank..."}
         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </Button>
     </PopoverTrigger>
