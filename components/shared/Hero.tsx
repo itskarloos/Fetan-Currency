@@ -18,7 +18,7 @@ export default function Hero() {
 
   return (
     <div
-      className="h-[150vh] bg-white text-black dark:bg-black dark:text-white w-full border border-black/[0.1] dark:border-white/[0.1] relative pt-40 overflow-clip"
+      className="h-[150vh] bg-white text-black dark:bg-black dark:text-white w-full relative pt-40 overflow-clip"
       ref={ref}
     >
       <GoogleGeminiEffect
