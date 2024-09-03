@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { BluetoothIcon } from "lucide-react";
 
 const AboutPage = () => {
   const [activeTab, setActiveTab] = useState("mission");
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-4 py-20">
       <div className="flex flex-col md:flex-row items-center justify-between">
         <motion.div
           className="md:w-1/2 mb-8 md:mb-0"
@@ -20,32 +22,32 @@ const AboutPage = () => {
             src="/assets/about-image.jpeg"
             alt="About Us"
             width={500}
-            height={300}
+            height={375}
             className="rounded-lg shadow-lg"
           />
         </motion.div>
         <div className="md:w-1/2 md:pl-8">
           <div className="flex mb-4">
-            <button
+            <Button
               className={`mr-4 px-4 py-2 rounded ${
                 activeTab === "mission"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  ? "bg-blue-500 text-white dark:bg-orange-500 dark:text-black"
+                  : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200"
               }`}
               onClick={() => setActiveTab("mission")}
             >
               Mission
-            </button>
-            <button
+            </Button>
+            <Button
               className={`px-4 py-2 rounded ${
                 activeTab === "vision"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  ? "bg-blue-500 text-white dark:bg-orange-500 dark:text-black"
+                  : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200"
               }`}
               onClick={() => setActiveTab("vision")}
             >
               Vision
-            </button>
+            </Button>
           </div>
           {activeTab === "mission" && (
             <motion.div
@@ -58,9 +60,9 @@ const AboutPage = () => {
               </h2>
               <p className="text-gray-700 dark:text-gray-300 mb-4">
                 We are dedicated to providing accurate and up-to-date currency
-                exchange information for Ethiopian banks. Our goal is to empower
-                users with the knowledge they need to make informed financial
-                decisions.
+                exchange information from Ethiopian banks. Our goal is to
+                empower users with the knowledge they need to make informed
+                financial decisions.
               </p>
             </motion.div>
           )}
