@@ -38,7 +38,7 @@ const Select: React.FC<SelectProps> = ({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full md:w-[300px] justify-between text-gray-300 bg-black border-gray-700 hover:bg-gray-700 hover:text-gray-200"
+          className="w-full md:w-[300px] justify-between dark:text-gray-300 text-gray-900 dark:bg-black bg-white dark:border-gray-700 border-gray-300 dark:hover:bg-gray-700 hover:bg-gray-200 hover:text-gray-800"
         >
           {value
             ? options.find((option) => option.value === value)?.label
