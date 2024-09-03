@@ -1,8 +1,7 @@
 "use client";
 import { useScroll, useTransform } from "framer-motion";
 import React from "react";
-import { GoogleGeminiEffect } from "@/components/ui/google-gemini-effect"
-
+import { GoogleGeminiEffect } from "@/components/ui/google-gemini-effect";
 
 export default function Hero() {
   const ref = React.useRef(null);
@@ -19,7 +18,7 @@ export default function Hero() {
 
   return (
     <div
-      className="h-[150vh] dark:bg-white dark:text-black bg-black w-full dark:border dark:border-white/[0.1] relative pt-40 overflow-clip"
+      className="h-[150vh] bg-white text-black dark:bg-black dark:text-white w-full border border-black/[0.1] dark:border-white/[0.1] relative pt-40 overflow-clip"
       ref={ref}
     >
       <GoogleGeminiEffect
@@ -30,8 +29,8 @@ export default function Hero() {
           pathLengthFourth,
           pathLengthFifth,
         ]}
-        title="Get your upto date currency information with Fetan"
-        description="Scroll this component and see the bottom SVG come to life wow this works!"
+        title="Get your up-to-date currency information with Fetan"
+        description="Stay updated with the latest news and currency rates"
       />
     </div>
   );

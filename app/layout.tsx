@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const poppins = Poppins(
-  { subsets: ["latin"],
+const poppins = Poppins({
+  subsets: ["latin"],
 
-  weight:['200','300','400','500','600','700']
-  });
+  weight: ["200", "300", "400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Fetan",
-  description: "Powerful tool to view current curreny information with analysis",
+  description:
+    "Powerful tool to view current curreny information with analysis",
 };
 
 export default function RootLayout({
@@ -20,7 +22,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
