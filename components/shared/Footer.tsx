@@ -1,0 +1,52 @@
+import React from "react";
+import Link from "next/link";
+
+const Footer = () => {
+  return (
+    <footer className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 py-8 transition-colors duration-200">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="mb-4 md:mb-0">
+            <span className="text-xl font-bold text-gray-800 dark:text-white">
+              Your Logo
+            </span>
+          </div>
+          <nav className="flex flex-wrap justify-center md:justify-end">
+            <Link
+              href="/"
+              className="mx-3 hover:text-gray-800 dark:hover:text-white transition-colors"
+            >
+              Home
+            </Link>
+            <Link
+              href="/about"
+              className="mx-3 hover:text-gray-800 dark:hover:text-white transition-colors"
+            >
+              About
+            </Link>
+            <Link
+              href="/contact"
+              className="mx-3 hover:text-gray-800 dark:hover:text-white transition-colors"
+            >
+              Contact
+            </Link>
+            <Link
+              href="/api"
+              className="mx-3 hover:text-gray-800 dark:hover:text-white transition-colors"
+            >
+              APIs
+            </Link>
+          </nav>
+        </div>
+        <div className="mt-8 text-center text-sm">
+          <p>
+            &copy; {new Date().getFullYear()} Your Company Name. All rights
+            reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

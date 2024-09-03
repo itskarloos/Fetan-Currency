@@ -9,6 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import ToggleButton from "../shared/ToggleButton";
+import Image from "next/image";
 
 export const FloatingNav = ({
   navItems,
@@ -61,6 +62,13 @@ export const FloatingNav = ({
           className
         )}
       >
+        <Image
+          src="/assets/logo.png"
+          alt="logo"
+          width={80}
+          height={30}
+          className="ml-1 md:mr-12 mr-2"
+        />
         {navItems.map((navItem: any, idx: number) => (
           <Link
             key={`link=${idx}`}
