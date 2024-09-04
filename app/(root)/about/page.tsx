@@ -10,7 +10,7 @@ const AboutPage = () => {
   const [activeTab, setActiveTab] = useState("mission");
 
   return (
-    <div className="container mx-auto px-4 py-20">
+    <div className="container mx-auto px-4 py-25">
       <div className="flex flex-col md:flex-row items-center justify-between">
         <motion.div
           className="md:w-1/2 mb-8 md:mb-0"
