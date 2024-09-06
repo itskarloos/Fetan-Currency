@@ -23,13 +23,37 @@ export default function ExchangeTable({
 }) {
   console.log(latestExchange);
   return (
-    <div className="space-y-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {latestExchange.map((bank) => (
-        <Card key={bank.bank} className="shadow-lg">
-          <CardHeader className="px-7 py-4 bg-primary text-primary-foreground">
+        <Card key={bank.bank} className="shadow-lg md:max-w-[400px]">
+          <CardHeader className="px-7 py-4 bg-gray-200 dark:bg-gray-800 text-primary-foreground rounded-lg">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <CardTitle>{bank.bank} Exchange Rates</CardTitle>
+                <CardTitle className="text-gray-800 dark:text-gray-200">
+                  {(() => {
+                    switch (bank.bank) {
+                      case "amhara_bank_rates":
+                        return "Amhara Bank";
+                      case "awash_bank_rates":
+                        return "Awash Bank";
+                      case "bank_of_abyssinia_rates":
+                        return "Bank of Abyssinia";
+                      case "cbe_rates":
+                        return "Central Bank of Ethiopia";
+                      case "dashen_bank_rates":
+                        return "Dashen Bank";
+                      case "nbe_exchange_rates":
+                        return "National Bank of Ethiopia";
+                      case "wegagen_bank_rates":
+                        return "Wegagen Bank";
+                      case "zemen_bank_rates":
+                        return "Zemen Bank";
+                      default:
+                        return "";
+                    }
+                  })()}{" "}
+                  Exchange Rates
+                </CardTitle>
                 <CardDescription>
                   Current buying and selling rates as of {bank.timestamp}.
                 </CardDescription>
@@ -40,7 +64,7 @@ export default function ExchangeTable({
             </div>
           </CardHeader>
           <CardContent>
-            <Table>
+            <Table className="pt-2">
               <TableHeader>
                 <TableRow>
                   <TableHead>Currency</TableHead>
