@@ -18,7 +18,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "An area chart with gradient fill";
+export const description =
+  "Exchange rate relative to national bank of ethiopia";
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -44,9 +45,9 @@ export function Chart() {
   return (
     <Card className="md:w-[400px]">
       <CardHeader>
-        <CardTitle>Area Chart - Gradient</CardTitle>
+        <CardTitle>Exchange Rate</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Exchange rate relative to national bank of ethiopia
         </CardDescription>
       </CardHeader>
       <CardContent>
