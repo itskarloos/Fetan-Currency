@@ -42,7 +42,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span>Amhara Bank</span>
+                            <span className="sm:text-sm">Amhara Bank</span>
                           </>
                         );
                       case "awash_bank_rates":
@@ -55,7 +55,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span>Awash Bank</span>
+                            <span className="sm:text-sm">Awash Bank</span>
                           </>
                         );
                       case "bank_of_abyssinia_rates":
@@ -68,7 +68,9 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span>Bank of Abyssinia</span>
+                            <span className="sm:text-sm">
+                              Bank of Abyssinia
+                            </span>
                           </>
                         );
                       case "cbe_rates":
@@ -81,7 +83,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span>Cbe</span>
+                            <span className="sm:text-sm">Cbe</span>
                           </>
                         );
                       case "dashen_bank_rates":
@@ -94,7 +96,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span>Dashen Bank</span>
+                            <span className="sm:text-sm">Dashen Bank</span>
                           </>
                         );
                       case "nbe_exchange_rates":
@@ -107,7 +109,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span>National Bank</span>
+                            <span className="sm:text-sm">National Bank</span>
                           </>
                         );
                       case "wegagen_bank_rates":
@@ -120,7 +122,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span>Wegagen Bank</span>
+                            <span className="sm:text-sm">Wegagen Bank</span>
                           </>
                         );
                       case "zemen_bank_rates":
@@ -133,14 +135,14 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span>Zemen Bank</span>
+                            <span className="sm:text-sm">Zemen Bank</span>
                           </>
                         );
                       default:
                         return "";
                     }
                   })()}
-                  <span>Exchange Rates</span>
+                  <span className="sm:text-sm">Exchange Rates</span>
                 </CardTitle>
                 <CardDescription>
                   Current buying and selling rates as of {bank.timestamp}.
