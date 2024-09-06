@@ -33,7 +33,7 @@ const connectToDatabase = async () => {
       console.error("Error message:", error.message);
       console.error("Error stack:", error.stack);
     }
-    // Check if it's a MongoDB connection error
+
     if (error instanceof mongoose.Error.MongooseServerSelectionError) {
       console.error(
         "MongoDB server selection error. Please check your connection string and network."

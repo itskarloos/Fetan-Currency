@@ -73,6 +73,7 @@ export const getNBEExchangeRates = async (
 
 export const getLatestBankRates = async (currencyCode?: string) => {
   try {
+    // Ensure database connection is established
     await connectToDatabase();
 
     const latestRates = await Promise.all(
