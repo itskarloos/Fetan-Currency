@@ -43,7 +43,6 @@ const connectToDatabase = async () => {
   }
 };
 
-// Add a function to check the connection status
 const checkDatabaseConnection = async () => {
   try {
     await connectToDatabase();
