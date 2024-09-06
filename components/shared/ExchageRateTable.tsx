@@ -29,7 +29,7 @@ export default function ExchangeTable({
           <CardHeader className="px-7 py-4 bg-gray-200 dark:bg-gray-800 text-primary-foreground rounded-lg">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <CardTitle className="text-gray-800 dark:text-gray-200 flex items-center space-x-2">
+                <CardTitle className="text-gray-800 dark:text-gray-200 flex items-center space-x-1">
                   {(() => {
                     switch (bank.bank) {
                       case "amhara_bank_rates":
@@ -42,7 +42,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span className="sm:text-xs">Amhara Bank</span>
+                            <span className="text-xs">Amhara Bank</span>
                           </>
                         );
                       case "awash_bank_rates":
@@ -55,7 +55,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span className="sm:text-xs">Awash Bank</span>
+                            <span className="text-xs">Awash Bank</span>
                           </>
                         );
                       case "bank_of_abyssinia_rates":
@@ -68,9 +68,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span className="sm:text-xs">
-                              Bank of Abyssinia
-                            </span>
+                            <span className="text-xs">Bank of Abyssinia</span>
                           </>
                         );
                       case "cbe_rates":
@@ -83,7 +81,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span className="sm:text-xs">Cbe</span>
+                            <span className="text-xs">Cbe</span>
                           </>
                         );
                       case "dashen_bank_rates":
@@ -96,7 +94,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span className="sm:text-xs">Dashen Bank</span>
+                            <span className="text-xs">Dashen Bank</span>
                           </>
                         );
                       case "nbe_exchange_rates":
@@ -109,7 +107,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span className="sm:text-xs">National Bank</span>
+                            <span className="text-xs">National Bank</span>
                           </>
                         );
                       case "wegagen_bank_rates":
@@ -122,7 +120,7 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span className="sm:text-xs">Wegagen Bank</span>
+                            <span className="text-xs">Wegagen Bank</span>
                           </>
                         );
                       case "zemen_bank_rates":
@@ -135,14 +133,14 @@ export default function ExchangeTable({
                               width={20}
                               height={20}
                             />
-                            <span className="sm:text-xs">Zemen Bank</span>
+                            <span className="text-xs">Zemen Bank</span>
                           </>
                         );
                       default:
                         return "";
                     }
                   })()}
-                  <span className="sm:text-xs">Exchange Rates</span>
+                  <span className="text-xs">Exchange Rates</span>
                 </CardTitle>
                 <CardDescription>
                   Current buying and selling rates as of {bank.timestamp}.
