@@ -24,7 +24,7 @@ const ExchangeCard: React.FC = () => {
   const [currency, setCurrency] = React.useState("");
 
   return (
-    <div className="flex md:flex-row flex-col md:gap-6 space-y-3">
+    <div className="flex md:flex-row flex-col md:gap-6 space-y-5">
       <Select
         options={banks}
         value={bank}
