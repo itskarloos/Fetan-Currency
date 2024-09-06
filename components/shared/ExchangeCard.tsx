@@ -7,16 +7,27 @@ import Select from "./ExchangeCardPopover";
 const banks = [
   { value: "Cbe", label: "Cbe" },
   { value: "Dashen", label: "Dashen" },
-  { value: "Abysinya", label: "Abysinya" },
+  { value: "Awash", label: "Awash" },
   { value: "Zemen", label: "Zemen" },
+  { value: "Abysinya", label: "Abysinya" },
+  { value: "Nbe", label: "Nbe" },
   { value: "Wegagen", label: "Wegagen" },
 ];
 
 const currencies = [
-  { value: "USD", label: "USD" },
-  { value: "EUR", label: "EUR" },
-  { value: "GBP", label: "GBP" },
-  { value: "ETB", label: "ETB" },
+  { value: "dollar", label: "USD" },
+  { value: "Euro", label: "EUR" },
+  { value: "Pound", label: "GBP" },
+  { value: "Ethiopian Birr", label: "ETB" },
+  { value: "Indian Rupee", label: "INR" },
+  { value: "United Arab Emirates Dirham", label: "AED" },
+  { value: "Saudi Riyal", label: "SAR" },
+  { value: "Kuwaiti Dinar", label: "KWD" },
+  { value: "Qatari Riyal", label: "QAR" },
+  { value: "Bahraini Dinar", label: "BHD" },
+  { value: "Omani Rial", label: "OMR" },
+  { value: "Jordanian Dinar", label: "JOD" },
+  { value: "Kuwaiti Dinar", label: "KWD" },
 ];
 
 const ExchangeCard: React.FC = () => {
@@ -24,7 +35,7 @@ const ExchangeCard: React.FC = () => {
   const [currency, setCurrency] = React.useState("");
 
   return (
-    <div className="flex md:flex-row flex-col md:gap-6 space-y-5">
+    <div className="flex md:flex-row flex-col md:gap-6 gap-4">
       <Select
         options={banks}
         value={bank}

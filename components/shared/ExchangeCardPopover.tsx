@@ -47,14 +47,14 @@ const Select: React.FC<SelectProps> = ({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0 bg-black border-gray-700">
-        <Command className="bg-black">
+      <PopoverContent className="w-[200px] p-0 dark:border-gray-700 border-gray-300">
+        <Command className="dark:bg-black bg-gray-200">
           <CommandInput
             placeholder={`Search ${placeholder}...`}
-            className="text-gray-300"
+            className="dark:text-gray-300 text-gray-800"
           />
           <CommandList>
-            <CommandEmpty className="text-gray-400">
+            <CommandEmpty className="dark:text-gray-400 text-gray-800">
               No {placeholder} Found
             </CommandEmpty>
             <CommandGroup>
@@ -66,7 +66,7 @@ const Select: React.FC<SelectProps> = ({
                     onChange(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
-                  className="text-white"
+                  className="dark:text-white text-gray-800"
                 >
                   <Check
                     className={cn(
