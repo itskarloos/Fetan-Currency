@@ -2,13 +2,9 @@ import React from "react";
 import NavBar from "@/components/shared/NavBar";
 import Hero from "@/components/shared/Hero";
 import Rate from "@/components/shared/Rate";
-import {
-  getLatestBankRates,
-  getNBEExchangeRates,
-} from "@/lib/database/actions/exchangeRate.actions";
+import { getLatestBankRates } from "@/lib/database/actions/exchangeRate.actions";
 
 export default async function Home() {
-  const nbeExchange = await getNBEExchangeRates();
   const latestBankRate = await getLatestBankRates();
 
   return (
