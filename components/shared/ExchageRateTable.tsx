@@ -29,7 +29,7 @@ export default function ExchangeTable({
           <CardHeader className="px-7 py-4 bg-gray-200 dark:bg-gray-800 text-primary-foreground rounded-lg">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <CardTitle className="text-gray-800 dark:text-gray-200 flex items-center">
+                <CardTitle className="text-gray-800 dark:text-gray-200 flex items-center space-x-1">
                   {(() => {
                     switch (bank.bank) {
                       case "amhara_bank_rates":

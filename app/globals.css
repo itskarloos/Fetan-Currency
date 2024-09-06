@@ -87,3 +87,8 @@
     @apply bg-background text-foreground;
   }
 }
+/* styles/globals.css */
+
+html {
+  scroll-behavior: smooth;
+}
