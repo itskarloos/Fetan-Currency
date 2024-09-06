@@ -15,7 +15,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { LatestExchangeProp } from "@/Types/utils"; // Ensure this import is correct
-
+import Image from "next/image";
 export default function ExchangeTable({
   latestExchange,
 }: {
@@ -29,30 +29,118 @@ export default function ExchangeTable({
           <CardHeader className="px-7 py-4 bg-gray-200 dark:bg-gray-800 text-primary-foreground rounded-lg">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <CardTitle className="text-gray-800 dark:text-gray-200">
+                <CardTitle className="text-gray-800 dark:text-gray-200 flex items-center space-x-2">
                   {(() => {
                     switch (bank.bank) {
                       case "amhara_bank_rates":
-                        return "Amhara Bank";
+                        return (
+                          <>
+                            <Image
+                              src="/assets/BankImageAssets/amhara.png"
+                              alt="Amhara Bank"
+                              className="rounded-full"
+                              width={20}
+                              height={20}
+                            />
+                            <span>Amhara Bank</span>
+                          </>
+                        );
                       case "awash_bank_rates":
-                        return "Awash Bank";
+                        return (
+                          <>
+                            <Image
+                              src="/assets/BankImageAssets/awash.png"
+                              alt="Awash Bank"
+                              className="rounded-full"
+                              width={20}
+                              height={20}
+                            />
+                            <span>Awash Bank</span>
+                          </>
+                        );
                       case "bank_of_abyssinia_rates":
-                        return "Bank of Abyssinia";
+                        return (
+                          <>
+                            <Image
+                              src="/assets/BankImageAssets/abyssinia.png"
+                              alt="Bank of Abyssinia"
+                              className="rounded-full"
+                              width={20}
+                              height={20}
+                            />
+                            <span>Bank of Abyssinia</span>
+                          </>
+                        );
                       case "cbe_rates":
-                        return "Central Bank of Ethiopia";
+                        return (
+                          <>
+                            <Image
+                              src="/assets/BankImageAssets/cbe.png"
+                              alt="Central Bank of Ethiopia"
+                              className="rounded-full"
+                              width={20}
+                              height={20}
+                            />
+                            <span>Cbe</span>
+                          </>
+                        );
                       case "dashen_bank_rates":
-                        return "Dashen Bank";
+                        return (
+                          <>
+                            <Image
+                              src="/assets/BankImageAssets/dashen.png"
+                              alt="Dashen Bank"
+                              className="rounded-full"
+                              width={20}
+                              height={20}
+                            />
+                            <span>Dashen Bank</span>
+                          </>
+                        );
                       case "nbe_exchange_rates":
-                        return "National Bank of Ethiopia";
+                        return (
+                          <>
+                            <Image
+                              src="/assets/BankImageAssets/nbe.png"
+                              alt="National Bank of Ethiopia"
+                              className="rounded-full"
+                              width={20}
+                              height={20}
+                            />
+                            <span>National Bank</span>
+                          </>
+                        );
                       case "wegagen_bank_rates":
-                        return "Wegagen Bank";
+                        return (
+                          <>
+                            <Image
+                              src="/assets/BankImageAssets/wegagen.png"
+                              alt="Wegagen Bank"
+                              className="rounded-full"
+                              width={20}
+                              height={20}
+                            />
+                            <span>Wegagen Bank</span>
+                          </>
+                        );
                       case "zemen_bank_rates":
-                        return "Zemen Bank";
+                        return (
+                          <>
+                            <Image
+                              src="/assets/BankImageAssets/zemen.png"
+                              alt="Zemen Bank"
+                              className="rounded-full"
+                              width={20}
+                              height={20}
+                            />
+                            <span>Zemen Bank</span>
+                          </>
+                        );
                       default:
                         return "";
                     }
-                  })()}{" "}
-                  Exchange Rates
+                  })()}
+                  <span>Exchange Rates</span>
                 </CardTitle>
                 <CardDescription>
                   Current buying and selling rates as of {bank.timestamp}.
