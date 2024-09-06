@@ -16,7 +16,7 @@ const connectToDatabase = async () => {
     }
 
     console.log("Attempting to connect to database...");
-    cached.promise = mongoose.connect(MONGODB_URI, {
+    cached.promise = await mongoose.connect(MONGODB_URI, {
       dbName: "exchange_rate_db",
       bufferCommands: false,
       serverSelectionTimeoutMS: 5000,
