@@ -27,3 +27,21 @@ export interface SearchParams {
   timestamp: Date;
   rates: Record<string, Currency>;
 }
+
+export type ExchangeAmount = {
+  currency_code: string;
+  cash_buying: number;
+  cash_selling: number;
+};
+
+export type BankAmount = {
+  [currencyCode: string]: ExchangeAmount;
+};
+
+export type BankExchangeAmount = {
+  bank: string;
+  timestamp?: string; // Make timestamp optional to handle undefined values
+  rates: BankAmount; // Make rates optional to handle undefined values
+};
+
+export type LatestAmountProp = BankExchangeAmount[];

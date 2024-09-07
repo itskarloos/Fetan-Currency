@@ -14,7 +14,7 @@ const Rate = ({ latestExchange }: { latestExchange: LatestExchangeProp }) => {
       <p className="text-2xl md:text-3xl dark:text-neutral-200 text-neutral-900">
         Exchange Rate
       </p>
-      <ExchangeCard />
+      <ExchangeCard latestExchange={latestExchange} />
       <ExchageTable latestExchange={latestExchange} />
       <Chart />
     </div>
