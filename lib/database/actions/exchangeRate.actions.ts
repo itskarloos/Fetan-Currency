@@ -71,20 +71,25 @@ export const getNBEExchangeRates = async (
   }
 };
 
-export const getLatestBankRates = async (currencyCode?: string) => {
+export const getLatestBankRates = async (
+  currencyCode?: string,
+  bank?: string
+) => {
   try {
     // Ensure database connection is established
     await connectToDatabase();
 
+    let banksToQuery = bank ? [bank] : bankCollections;
+
     const latestRates = await Promise.all(
-      bankCollections.map(async (bank) => {
-        const BankModel = getExchangeRateModel(bank);
+      banksToQuery.map(async (bankName) => {
+        const BankModel = getExchangeRateModel(bankName);
         const latestRate = await BankModel.findOne()
           .sort({ timestamp: -1 })
           .limit(1);
 
         if (!latestRate) {
-          return { bank, latestExchangeRate: null };
+          return { bank: bankName, latestExchangeRate: null };
         }
 
         const formattedRates = latestRate.exchange_rates.reduce(
@@ -107,7 +112,7 @@ export const getLatestBankRates = async (currencyCode?: string) => {
         );
 
         return {
-          bank,
+          bank: bankName,
           timestamp: latestRate.timestamp,
           rates: formattedRates,
         };

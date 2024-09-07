@@ -15,3 +15,15 @@ export type BankExchangeRate = {
 };
 
 export type LatestExchangeProp = BankExchangeRate[];
+
+interface Currency {
+  currency_code: string;
+  cash_buying: number;
+  cash_selling: number;
+}
+
+export interface SearchParams {
+  bank: string;
+  timestamp: Date;
+  rates: Record<string, Currency>;
+}
