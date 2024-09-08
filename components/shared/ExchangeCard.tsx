@@ -72,19 +72,23 @@ const ExchangeCard: React.FC<{ latestExchange: LatestExchangeProp }> = ({
 
   return (
     <div className="w-full mb-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Select
-          options={banks}
-          value={bank}
-          onChange={setBank}
-          placeholder="Select Bank..."
-        />
-        <Select
-          options={currencies}
-          value={currency}
-          onChange={setCurrency}
-          placeholder="Select Currency..."
-        />
+      <div className="flex flex-col md:flex-row w-full gap-4">
+        <div className="flex-1 w-full">
+          <Select
+            options={banks}
+            value={bank}
+            onChange={setBank}
+            placeholder="Select Bank..."
+          />
+        </div>
+        <div className="flex-1 w-full">
+          <Select
+            options={currencies}
+            value={currency}
+            onChange={setCurrency}
+            placeholder="Select Currency..."
+          />
+        </div>
       </div>
       <Input
         type="number"
