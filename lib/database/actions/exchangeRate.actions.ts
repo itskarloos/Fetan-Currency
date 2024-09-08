@@ -125,3 +125,50 @@ export const getLatestBankRates = async (
     throw new Error("Failed to fetch latest bank rates");
   }
 };
+
+
+export const getExchangeRateHistory = async (
+  currencyCode: string | "USD",
+  bank: string | "cbe_rates"
+) => {
+  try {
+    await connectToDatabase();
+    if (!bank || !currencyCode) {
+      throw new Error("Bank name and currency code are required");
+    }
+
+    const BankModel = getExchangeRateModel(bank);
+    const NBEModel = getExchangeRateModel("nbe_exchange_rates");
+
+    const bankHistory = await BankModel.find({
+      "exchange_rates.currency_code": currencyCode,
+    })
+      .sort({ timestamp: -1 })
+      .limit(5);
+
+    const nbeHistory = await NBEModel.find({
+      "exchange_rates.currency_code": currencyCode,
+    })
+      .sort({ timestamp: -1 })
+      .limit(5);
+
+    const formatHistory = (history: any[]) =>
+      history
+        .map((entry) => ({
+          timestamp: entry.timestamp,
+          rate: entry.exchange_rates.find(
+            (rate: { currency_code: string }) =>
+              rate.currency_code === currencyCode
+          ),
+        }))
+        .reverse();
+
+    return {
+      bankHistory: formatHistory(bankHistory),
+      nbeHistory: formatHistory(nbeHistory),
+    };
+  } catch (error) {
+    console.error("Error fetching exchange rate history:", error);
+    throw error;
+  }
+};
