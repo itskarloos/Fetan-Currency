@@ -20,21 +20,15 @@ const bankCollections = [
 ];
 
 // Function to get the NBE exchange rates without sorting
-export const getNBEExchangeRates = async (
-  date?: string,
-  currencyCode?: string
-) => {
+export const getNBEExchangeRates = async (currencyCode?: string) => {
   try {
     await connectToDatabase();
 
     const NBEModel = getExchangeRateModel("nbe_exchange_rates");
 
-    const query: any = {};
-    if (date) {
-      query.timestamp = date;
-    }
-
-    const nbeExchangeRate = await NBEModel.findOne(query);
+    const nbeExchangeRate = await NBEModel.findOne()
+      .sort({ timestamp: -1 })
+      .limit(1);
 
     if (!nbeExchangeRate) {
       return {
@@ -72,8 +66,8 @@ export const getNBEExchangeRates = async (
       rates: formattedRates,
     };
   } catch (error) {
-    console.error("Error fetching NBE exchange rates:", error);
-    throw new Error("Failed to fetch NBE exchange rates");
+    console.error("Error fetching latest NBE exchange rates:", error);
+    throw new Error("Failed to fetch latest NBE exchange rates");
   }
 };
 
@@ -138,53 +132,44 @@ export const compareBankToNBEExchangeRates = async (
 ) => {
   try {
     console.log(`Comparing rates for currency: ${currencyCode}, bank: ${bank}`);
+
     await connectToDatabase();
 
-    // Debug: Log input parameters
-    console.log("Input parameters:", { currencyCode, bank });
+    // Fetch bank rates
+    const BankModel = getExchangeRateModel(bank);
+    const latestBankRate = await BankModel.findOne()
+      .sort({ timestamp: -1 })
+      .limit(1);
 
-    const bankRates = await getLatestBankRates(currencyCode, bank);
-    console.log("Bank rates:", JSON.stringify(bankRates, null, 2));
+    // Fetch NBE rates
+    const NBEModel = getExchangeRateModel("nbe_exchange_rates");
+    const latestNBERate = await NBEModel.findOne()
+      .sort({ timestamp: -1 })
+      .limit(1);
 
-    const nbeRates = await getNBEExchangeRates(undefined, currencyCode);
-    console.log("NBE rates:", JSON.stringify(nbeRates, null, 2));
-
-    // Debug: Check if bankRates and nbeRates are as expected
-    if (!bankRates.length) {
-      console.error("No bank rates returned");
+    if (!latestBankRate || !latestNBERate) {
+      console.error("No bank rates or NBE rates returned");
       return null;
     }
-    if (!nbeRates || !nbeRates.rates) {
-      console.error("No NBE rates returned");
-      return null;
-    }
 
-    const bankRate = bankRates.find((rate) => rate.bank === bank)?.rates?.[
-      currencyCode
-    ];
-    const nbeRate = nbeRates?.rates?.[currencyCode];
+    const bankRate = latestBankRate.exchange_rates.find(
+      (rate: any) =>
+        rate.currency_code.toLowerCase() === currencyCode.toLowerCase()
+    );
+    const nbeRate = latestNBERate.exchange_rates.find(
+      (rate: any) =>
+        rate.currency_code.toLowerCase() === currencyCode.toLowerCase()
+    );
 
     if (!bankRate || !nbeRate) {
       console.error(
         `Bank rate or NBE rate not found for ${bank} and ${currencyCode}`
       );
-      console.log("Bank rates:", bankRates);
-      console.log("NBE rates:", nbeRates);
       return null;
     }
 
     console.log("Bank rate:", bankRate);
     console.log("NBE rate:", nbeRate);
-
-    // Debug: Check if bankRate and nbeRate are found
-    if (!bankRate) {
-      console.error(`Bank rate not found for ${bank} and ${currencyCode}`);
-      return null;
-    }
-    if (!nbeRate) {
-      console.error(`NBE rate not found for ${currencyCode}`);
-      return null;
-    }
 
     const calculateDifference = (bankValue: number, nbeValue: number) => {
       const diff = bankValue - nbeValue;
@@ -202,20 +187,25 @@ export const compareBankToNBEExchangeRates = async (
     const result = {
       bankRate: {
         name: bank,
-        rate: bankRate,
-        ...calculateDifference(bankRate.cash_buying, nbeRate.cash_buying),
+        rate: {
+          cash_buying: parseFloat(bankRate.cash_buying),
+          cash_selling: parseFloat(bankRate.cash_selling),
+        },
       },
       nbeRate: {
         name: "NBE",
-        rate: nbeRate,
+        rate: {
+          cash_buying: parseFloat(nbeRate.cash_buying),
+          cash_selling: parseFloat(nbeRate.cash_selling),
+        },
       },
       buyingComparison: calculateDifference(
-        bankRate.cash_buying,
-        nbeRate.cash_buying
+        parseFloat(bankRate.cash_buying),
+        parseFloat(nbeRate.cash_buying)
       ),
       sellingComparison: calculateDifference(
-        bankRate.cash_selling,
-        nbeRate.cash_selling
+        parseFloat(bankRate.cash_selling),
+        parseFloat(nbeRate.cash_selling)
       ),
     };
 
@@ -223,7 +213,6 @@ export const compareBankToNBEExchangeRates = async (
     return result;
   } catch (error) {
     console.error("Error in compareBankToNBEExchangeRates:", error);
-    // Debug: Log the full error stack
     if (error instanceof Error) {
       console.error(error.stack);
     }
