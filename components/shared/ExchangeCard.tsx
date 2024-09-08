@@ -102,7 +102,7 @@ const ExchangeCard: React.FC<{ latestExchange: LatestExchangeProp }> = ({
         <Card className="w-full max-w-[400px] mx-auto mt-4 overflow-hidden shadow-lg dark:border-gray-900 border-gray-100">
           <div className="relative">
             <div className="absolute inset-0 pattern-wavy"></div>
-            <CardContent className="relative flex flex-col items-center justify-center gap-4 p-8 bg-white/80 dark:bg-black/80">
+            <CardContent className="relative flex flex-col items-center justify-center gap-4 p-8 bg-white/80 dark:bg-black/70">
               <div className="text-5xl font-bold text-gray-700 dark:text-gray-300">
                 {exchangeAmount.toFixed(2)} <span className="text-xl">ETB</span>
               </div>
