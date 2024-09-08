@@ -205,8 +205,23 @@ export const getLatestExchangeRates = async (
 
   try {
     await connectToDatabase();
-
-    const BankModel = getExchangeRateModel(bank);
+    const formattedBank =
+      bank === "Cbe"
+        ? "cbe_rates"
+        : bank === "Nbe"
+        ? "nbe_exchange_rates"
+        : bank === "Dashen"
+        ? "dashen_bank_rates"
+        : bank === "Amhara"
+        ? "amhara_bank_rates"
+        : bank === "Awash"
+        ? "awash_bank_rates"
+        : bank === "Zemen"
+        ? "zemen_bank_rates"
+        : bank === "Wegagen"
+        ? "wegagen_bank_rates"
+        : bank;
+    const BankModel = getExchangeRateModel(formattedBank);
     const NBEModel = getExchangeRateModel("nbe_exchange_rates");
 
     const getLatestRate = async (Model: any) => {
