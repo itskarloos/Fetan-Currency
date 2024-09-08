@@ -7,7 +7,8 @@ import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { LatestAmountProp, LatestExchangeProp } from "@/Types/utils";
 import { Card, CardContent, CardFooter } from "../ui/card";
-
+import Image from "next/image";
+import { useTheme } from "next-themes";
 // Data
 const banks = [
   { value: "cbe_rates", label: "Cbe" },
@@ -39,6 +40,7 @@ const currencies = [
 const ExchangeCard: React.FC<{ latestExchange: LatestExchangeProp }> = ({
   latestExchange,
 }) => {
+  const { theme } = useTheme();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [bank, setBank] = React.useState(searchParams.get("bank") || "");
@@ -69,36 +71,77 @@ const ExchangeCard: React.FC<{ latestExchange: LatestExchangeProp }> = ({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Select
-        options={banks}
-        value={bank}
-        onChange={setBank}
-        placeholder="Select Bank..."
-      />
-      <Select
-        options={currencies}
-        value={currency}
-        onChange={setCurrency}
-        placeholder="Select Currency..."
-      />
+    <div className="w-full mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Select
+          options={banks}
+          value={bank}
+          onChange={setBank}
+          placeholder="Select Bank..."
+        />
+        <Select
+          options={currencies}
+          value={currency}
+          onChange={setCurrency}
+          placeholder="Select Currency..."
+        />
+      </div>
       <Input
         type="number"
         value={amount}
         placeholder="Amount"
+        className="w-full mt-4"
         onChange={(e) => setAmount(e.target.value)}
       />
+
       {exchangeAmount !== undefined && (
-        <Card className="w-full max-w-md mx-auto bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg">
-          <CardContent className="flex flex-col items-center justify-center gap-4 p-8">
-            <div className="text-5xl font-bold">
-              {exchangeAmount.toFixed(2)} <span className="text-xl">ETB</span>
-            </div>
-            <div className="text-2xl">Exchange Amount </div>
-          </CardContent>
-          <CardFooter className="text-center text-sm text-gray-200">
-            Bank: {bank} | Currency: {currency}
-          </CardFooter>
+        <Card className="w-full max-w-[400px] mx-auto mt-4 overflow-hidden shadow-lg dark:border-gray-900 border-gray-100">
+          <div className="relative">
+            <div className="absolute inset-0 pattern-wavy"></div>
+            <CardContent className="relative flex flex-col items-center justify-center gap-4 p-8 bg-white/80 dark:bg-black/80">
+              <div className="text-5xl font-bold text-gray-700 dark:text-gray-300">
+                {exchangeAmount.toFixed(2)} <span className="text-xl">ETB</span>
+              </div>
+              <div className="text-2xl text-gray-800 dark:text-gray-100">
+                Exchange Amount
+              </div>
+            </CardContent>
+            <CardFooter className="relative text-center text-xs text-gray-800 dark:text-gray-200 p-1 bg-white/80 dark:bg-black/80">
+              <div className="flex items-center justify-center mx-auto">
+                <div>
+                  Bank :{" "}
+                  {bank === "cbe_rates"
+                    ? "CBE"
+                    : bank === "amhara_bank_rates"
+                    ? "Amhara "
+                    : bank === "dashen_bank_rates"
+                    ? "Dashen Bank "
+                    : bank === "awash_bank_rates"
+                    ? "Awash Bank "
+                    : bank === "zemen_bank_rates"
+                    ? "Zemen Bank "
+                    : bank === "bank_of_abyssinia_rates"
+                    ? "Abysinya Bank"
+                    : bank === "nbe_exchange_rates"
+                    ? "NBE "
+                    : bank === "wegagen_bank_rates"
+                    ? "Wegagen Bank"
+                    : bank}
+                  | Currency : {currency}
+                </div>
+                <Image
+                  src={
+                    theme === "dark"
+                      ? "/assets/fetan-light.png"
+                      : "/assets/fetan-dark.png"
+                  }
+                  alt="exchange"
+                  width={80}
+                  height={80}
+                />
+              </div>
+            </CardFooter>
+          </div>
         </Card>
       )}
     </div>

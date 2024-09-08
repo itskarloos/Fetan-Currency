@@ -25,7 +25,7 @@ export default function ExchangeTable({
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {latestExchange.map((bank) => (
-        <Card key={bank.bank} className="shadow-lg md:max-w-[400px]">
+        <Card key={bank.bank} className="shadow-lg md:max-w-[400px] ">
           <CardHeader className="px-7 py-4 bg-gray-200 dark:bg-gray-800 text-primary-foreground rounded-lg">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
