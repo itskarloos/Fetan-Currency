@@ -5,7 +5,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
-
 const AboutPage = () => {
   const [activeTab, setActiveTab] = useState("mission");
 
@@ -90,9 +89,9 @@ const AboutPage = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { name: "John Doe", role: "Founder & CEO" },
-            { name: "Jane Smith", role: "Head of Operations" },
-            { name: "Mike Johnson", role: "Lead Developer" },
+            { name: "Michael Seyoum", role: "Founder & CEO" },
+            { name: "Nahom Teguade", role: "Head of Operations" },
+            { name: "Zeamanuel Tsegaye", role: "Lead Developer" },
           ].map((member, index) => (
             <motion.div
               key={index}
