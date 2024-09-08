@@ -136,40 +136,70 @@ export const compareBankToNBEExchangeRates = async (
   currencyCode: string,
   bank: string
 ) => {
-  if (
-    !currencyCode ||
-    !bank ||
-    currencyCode.trim() === "" ||
-    bank.trim() === ""
-  ) {
-    return null;
-  }
-
   try {
+    console.log(`Comparing rates for currency: ${currencyCode}, bank: ${bank}`);
     await connectToDatabase();
 
-    const bankRates = await getLatestBankRates(currencyCode, bank);
-    const nbeRates = await getNBEExchangeRates(undefined, currencyCode);
+    // Debug: Log input parameters
+    console.log("Input parameters:", { currencyCode, bank });
 
-    const bankRate = bankRates.find((rate) => rate.bank === bank)?.rates[
+    const bankRates = await getLatestBankRates(currencyCode, bank);
+    console.log("Bank rates:", JSON.stringify(bankRates, null, 2));
+
+    const nbeRates = await getNBEExchangeRates(undefined, currencyCode);
+    console.log("NBE rates:", JSON.stringify(nbeRates, null, 2));
+
+    // Debug: Check if bankRates and nbeRates are as expected
+    if (!bankRates.length) {
+      console.error("No bank rates returned");
+      return null;
+    }
+    if (!nbeRates || !nbeRates.rates) {
+      console.error("No NBE rates returned");
+      return null;
+    }
+
+    const bankRate = bankRates.find((rate) => rate.bank === bank)?.rates?.[
       currencyCode
     ];
-    const nbeRate = nbeRates.rates[currencyCode];
+    const nbeRate = nbeRates?.rates?.[currencyCode];
 
     if (!bankRate || !nbeRate) {
+      console.error(
+        `Bank rate or NBE rate not found for ${bank} and ${currencyCode}`
+      );
+      console.log("Bank rates:", bankRates);
+      console.log("NBE rates:", nbeRates);
+      return null;
+    }
+
+    console.log("Bank rate:", bankRate);
+    console.log("NBE rate:", nbeRate);
+
+    // Debug: Check if bankRate and nbeRate are found
+    if (!bankRate) {
+      console.error(`Bank rate not found for ${bank} and ${currencyCode}`);
+      return null;
+    }
+    if (!nbeRate) {
+      console.error(`NBE rate not found for ${currencyCode}`);
       return null;
     }
 
     const calculateDifference = (bankValue: number, nbeValue: number) => {
       const diff = bankValue - nbeValue;
       const percentDiff = ((diff / nbeValue) * 100).toFixed(2);
+      console.log(
+        `Difference calculation: ${bankValue} - ${nbeValue} = ${diff}`
+      );
+      console.log(`Percentage difference: ${percentDiff}%`);
       return {
         difference: diff.toFixed(4),
         percentageDifference: `${percentDiff}%`,
       };
     };
 
-    return {
+    const result = {
       bankRate: {
         name: bank,
         rate: bankRate,
@@ -188,8 +218,15 @@ export const compareBankToNBEExchangeRates = async (
         nbeRate.cash_selling
       ),
     };
+
+    console.log("Comparison result:", JSON.stringify(result, null, 2));
+    return result;
   } catch (error) {
-    console.error("Error fetching latest exchange rates:", error);
+    console.error("Error in compareBankToNBEExchangeRates:", error);
+    // Debug: Log the full error stack
+    if (error instanceof Error) {
+      console.error(error.stack);
+    }
     throw error;
   }
 };

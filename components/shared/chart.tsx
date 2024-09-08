@@ -56,7 +56,7 @@ export function Chart() {
       console.log(history);
     };
     fetchData();
-  }, [searchParams]);
+  }, [bank, currency]);
 
   return (
     <Card className="md:w-[400px]">
