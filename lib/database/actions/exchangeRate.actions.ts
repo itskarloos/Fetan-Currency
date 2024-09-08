@@ -1,5 +1,11 @@
 import getExchangeRateModel from "../models/exchange_rate"; // Path to your generic model
 import { connectToDatabase } from "../index";
+import { LRUCache } from "lru-cache";
+
+const cache = new LRUCache({
+  max: 100,
+  ttl: 1000 * 60 * 5, // 5 minutes
+});
 
 // List of bank collections
 const bankCollections = [
@@ -126,16 +132,21 @@ export const getLatestBankRates = async (
   }
 };
 
-
 export const getExchangeRateHistory = async (
   currencyCode: string | "USD",
   bank: string | "cbe_rates"
 ) => {
+  if (
+    !currencyCode ||
+    !bank ||
+    currencyCode.trim() === "" ||
+    bank.trim() === ""
+  ) {
+    return null; // Return null if currencyCode or bank is missing or empty
+  }
+
   try {
     await connectToDatabase();
-    if (!bank || !currencyCode) {
-      throw new Error("Bank name and currency code are required");
-    }
 
     const BankModel = getExchangeRateModel(bank);
     const NBEModel = getExchangeRateModel("nbe_exchange_rates");
@@ -169,6 +180,65 @@ export const getExchangeRateHistory = async (
     };
   } catch (error) {
     console.error("Error fetching exchange rate history:", error);
+    throw error;
+  }
+};
+
+export const getLatestExchangeRates = async (
+  currencyCode: string,
+  bank: string
+) => {
+  if (
+    !currencyCode ||
+    !bank ||
+    currencyCode.trim() === "" ||
+    bank.trim() === ""
+  ) {
+    return null;
+  }
+
+  const cacheKey = `${currencyCode}-${bank}`;
+  const cachedResult = cache.get(cacheKey);
+  if (cachedResult) {
+    return cachedResult;
+  }
+
+  try {
+    await connectToDatabase();
+
+    const BankModel = getExchangeRateModel(bank);
+    const NBEModel = getExchangeRateModel("nbe_exchange_rates");
+
+    const getLatestRate = async (Model: any) => {
+      const latest = await Model.findOne({
+        "exchange_rates.currency_code": currencyCode,
+      }).sort({ timestamp: -1 });
+
+      return latest
+        ? {
+            timestamp: latest.timestamp,
+            rate: latest.exchange_rates.find(
+              (rate: { currency_code: string }) =>
+                rate.currency_code === currencyCode
+            ),
+          }
+        : null;
+    };
+
+    const [bankLatest, nbeLatest] = await Promise.all([
+      getLatestRate(BankModel),
+      getLatestRate(NBEModel),
+    ]);
+
+    const result = {
+      bankLatest,
+      nbeLatest,
+    };
+
+    cache.set(cacheKey, result);
+    return result;
+  } catch (error) {
+    console.error("Error fetching latest exchange rates:", error);
     throw error;
   }
 };

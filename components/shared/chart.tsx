@@ -17,6 +17,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { SearchParams } from "@/Types/utils";
+import { useSearchParams } from "next/navigation";
+import { getExchangeRateHistory } from "@/lib/database/actions/exchangeRate.actions";
+import { useEffect } from "react";
 
 export const description =
   "Exchange rate relative to national bank of ethiopia";
@@ -42,6 +46,15 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function Chart() {
+  const searchParams = useSearchParams();
+  const bank = searchParams.get("bank") || "";
+  const currency = searchParams.get("currency") || "";
+
+  useEffect(() => {
+    const history = getExchangeRateHistory(currency, bank);
+    console.log(history);
+  }, [searchParams]);
+
   return (
     <Card className="md:w-[400px]">
       <CardHeader>
