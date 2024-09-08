@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/chart";
 import { SearchParams } from "@/Types/utils";
 import { useSearchParams } from "next/navigation";
-import { getExchangeRateHistory } from "@/lib/database/actions/exchangeRate.actions";
+import { compareBankToNBEExchangeRates } from "@/lib/database/actions/exchangeRate.actions";
 import { useEffect } from "react";
 
 export const description =
@@ -51,8 +51,11 @@ export function Chart() {
   const currency = searchParams.get("currency") || "";
 
   useEffect(() => {
-    const history = getExchangeRateHistory(currency, bank);
-    console.log(history);
+    const fetchData = async () => {
+      const history = await compareBankToNBEExchangeRates(currency, bank);
+      console.log(history);
+    };
+    fetchData();
   }, [searchParams]);
 
   return (

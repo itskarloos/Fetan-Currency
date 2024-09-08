@@ -132,59 +132,7 @@ export const getLatestBankRates = async (
   }
 };
 
-export const getExchangeRateHistory = async (
-  currencyCode: string | "USD",
-  bank: string | "cbe_rates"
-) => {
-  if (
-    !currencyCode ||
-    !bank ||
-    currencyCode.trim() === "" ||
-    bank.trim() === ""
-  ) {
-    return null; // Return null if currencyCode or bank is missing or empty
-  }
-
-  try {
-    await connectToDatabase();
-
-    const BankModel = getExchangeRateModel(bank);
-    const NBEModel = getExchangeRateModel("nbe_exchange_rates");
-
-    const bankHistory = await BankModel.find({
-      "exchange_rates.currency_code": currencyCode,
-    })
-      .sort({ timestamp: -1 })
-      .limit(5);
-
-    const nbeHistory = await NBEModel.find({
-      "exchange_rates.currency_code": currencyCode,
-    })
-      .sort({ timestamp: -1 })
-      .limit(5);
-
-    const formatHistory = (history: any[]) =>
-      history
-        .map((entry) => ({
-          timestamp: entry.timestamp,
-          rate: entry.exchange_rates.find(
-            (rate: { currency_code: string }) =>
-              rate.currency_code === currencyCode
-          ),
-        }))
-        .reverse();
-
-    return {
-      bankHistory: formatHistory(bankHistory),
-      nbeHistory: formatHistory(nbeHistory),
-    };
-  } catch (error) {
-    console.error("Error fetching exchange rate history:", error);
-    throw error;
-  }
-};
-
-export const getLatestExchangeRates = async (
+export const compareBankToNBEExchangeRates = async (
   currencyCode: string,
   bank: string
 ) => {
@@ -197,61 +145,49 @@ export const getLatestExchangeRates = async (
     return null;
   }
 
-  const cacheKey = `${currencyCode}-${bank}`;
-  const cachedResult = cache.get(cacheKey);
-  if (cachedResult) {
-    return cachedResult;
-  }
-
   try {
     await connectToDatabase();
-    const formattedBank =
-      bank === "Cbe"
-        ? "cbe_rates"
-        : bank === "Nbe"
-        ? "nbe_exchange_rates"
-        : bank === "Dashen"
-        ? "dashen_bank_rates"
-        : bank === "Amhara"
-        ? "amhara_bank_rates"
-        : bank === "Awash"
-        ? "awash_bank_rates"
-        : bank === "Zemen"
-        ? "zemen_bank_rates"
-        : bank === "Wegagen"
-        ? "wegagen_bank_rates"
-        : bank;
-    const BankModel = getExchangeRateModel(formattedBank);
-    const NBEModel = getExchangeRateModel("nbe_exchange_rates");
 
-    const getLatestRate = async (Model: any) => {
-      const latest = await Model.findOne({
-        "exchange_rates.currency_code": currencyCode,
-      }).sort({ timestamp: -1 });
+    const bankRates = await getLatestBankRates(currencyCode, bank);
+    const nbeRates = await getNBEExchangeRates(undefined, currencyCode);
 
-      return latest
-        ? {
-            timestamp: latest.timestamp,
-            rate: latest.exchange_rates.find(
-              (rate: { currency_code: string }) =>
-                rate.currency_code === currencyCode
-            ),
-          }
-        : null;
+    const bankRate = bankRates.find((rate) => rate.bank === bank)?.rates[
+      currencyCode
+    ];
+    const nbeRate = nbeRates.rates[currencyCode];
+
+    if (!bankRate || !nbeRate) {
+      return null;
+    }
+
+    const calculateDifference = (bankValue: number, nbeValue: number) => {
+      const diff = bankValue - nbeValue;
+      const percentDiff = ((diff / nbeValue) * 100).toFixed(2);
+      return {
+        difference: diff.toFixed(4),
+        percentageDifference: `${percentDiff}%`,
+      };
     };
 
-    const [bankLatest, nbeLatest] = await Promise.all([
-      getLatestRate(BankModel),
-      getLatestRate(NBEModel),
-    ]);
-
-    const result = {
-      bankLatest,
-      nbeLatest,
+    return {
+      bankRate: {
+        name: bank,
+        rate: bankRate,
+        ...calculateDifference(bankRate.cash_buying, nbeRate.cash_buying),
+      },
+      nbeRate: {
+        name: "NBE",
+        rate: nbeRate,
+      },
+      buyingComparison: calculateDifference(
+        bankRate.cash_buying,
+        nbeRate.cash_buying
+      ),
+      sellingComparison: calculateDifference(
+        bankRate.cash_selling,
+        nbeRate.cash_selling
+      ),
     };
-
-    cache.set(cacheKey, result);
-    return result;
   } catch (error) {
     console.error("Error fetching latest exchange rates:", error);
     throw error;
