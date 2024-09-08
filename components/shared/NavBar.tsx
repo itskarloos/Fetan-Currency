@@ -3,6 +3,7 @@
 import React from "react";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
+import { Webhook } from "lucide-react";
 
 export function NavBar() {
   const navItems = [
@@ -19,9 +20,7 @@ export function NavBar() {
     {
       name: "Contact",
       link: "/contact",
-      icon: (
-        <IconMessage className="h-4 w-4 text-neutral-500 dark:text-white" />
-      ),
+      icon: <Webhook className="h-4 w-4 text-neutral-500 dark:text-white" />,
     },
     {
       name: "Api",
