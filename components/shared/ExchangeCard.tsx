@@ -34,6 +34,18 @@ const currencies = [
   { value: "BHD", label: "BHD" },
   { value: "OMR", label: "OMR" },
   { value: "JOD", label: "JOD" },
+  { value: "CNY", label: "CNY" },
+  { value: "CAD", label: "CAD" },
+  { value: "AUD", label: "AUD" },
+  { value: "NZD", label: "NZD" },
+  { value: "SGD", label: "SGD" },
+  { value: "HKD", label: "HKD" },
+  { value: "SEK", label: "SEK" },
+  { value: "NOK", label: "NOK" },
+  { value: "DKK", label: "DKK" },
+  { value: "ISK", label: "ISK" },
+  { value: "CZK", label: "CZK" },
+  { value: "EURO", label: "EURO" },
 ];
 
 const ExchangeCard: React.FC<{ latestExchange: LatestExchangeProp }> = ({
