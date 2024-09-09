@@ -193,7 +193,7 @@ const ExchangeChart = ({
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
+        <div className="flex gap-2 font-medium leading-1">
           {formattedBank} - Cash Buying Difference{" "}
           {chartData.difference.cashBuying} <TrendingUp className="h-4 w-4" />
         </div>
