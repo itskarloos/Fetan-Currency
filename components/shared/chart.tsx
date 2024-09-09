@@ -1,7 +1,9 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { compareBankToNBEExchangeRates } from "@/lib/database/actions/exchangeRate.actions";
 import { TrendingUp } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import {
   Card,
@@ -17,22 +19,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { SearchParams } from "@/Types/utils";
-import { useSearchParams } from "next/navigation";
-import { compareBankToNBEExchangeRates } from "@/lib/database/actions/exchangeRate.actions";
-import { useEffect } from "react";
 
-export const description =
-  "Exchange rate relative to national bank of ethiopia";
-
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+export const description = "A multiple bar chart";
 
 const chartConfig = {
   desktop: {
@@ -45,103 +33,171 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function Chart() {
-  const searchParams = useSearchParams();
-  const bank = searchParams.get("bank") || "";
-  const currency = searchParams.get("currency") || "";
+interface ChartData {
+  currencyCode: string;
+  nbe: {
+    bank: string;
+    timestamp: any;
+    cashBuying: any;
+    cashSelling: any;
+  };
+  comparedBank: {
+    bank: string;
+    timestamp: any;
+    cashBuying: any;
+    cashSelling: any;
+  };
+  difference: {
+    cashBuying: number;
+    cashSelling: number;
+  };
+}
+
+const Chart = ({ bank, currency }: { bank: string; currency: string }) => {
+  const [chartData, setChartData] = useState<ChartData | null>(null);
+
+  const formattedBank =
+    bank === "nbe_exchange_rates"
+      ? "National Bank"
+      : bank === "cbe_rates"
+      ? "CBE"
+      : bank === "amhara_bank_rates"
+      ? "Amhara Bank"
+      : bank === "wegagen_bank_rates"
+      ? "Wegagen Bank"
+      : bank === "zemen_bank_rates"
+      ? "Zemen Bank"
+      : bank === "bank_of_abyssinia_rates"
+      ? "Bank of Abyssinia"
+      : bank === "awash_bank_rates"
+      ? "Awash Bank"
+      : bank === "dashen_bank_rates"
+      ? "Dashen Bank"
+      : "N/A";
+  const Data = [
+    {
+      month: "BUY",
+      "National Bank": chartData?.nbe.cashBuying,
+      [formattedBank]: chartData?.comparedBank.cashBuying,
+    },
+    {
+      month: "SELL",
+      "National Bank": chartData?.nbe.cashSelling,
+      [formattedBank]: chartData?.comparedBank.cashSelling,
+    },
+    {
+      month: "DIFF",
+      "National Bank": chartData?.difference.cashBuying,
+      [formattedBank]: chartData?.difference.cashSelling,
+    },
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
-      const history = await compareBankToNBEExchangeRates(currency, bank);
-      console.log(history);
+      if (bank.trim() !== "" && currency.trim() !== "") {
+        try {
+          const data = await compareBankToNBEExchangeRates(currency, bank);
+          setChartData(data);
+          console.log(data);
+        } catch (error) {
+          console.error("Error fetching chart data:", error);
+        }
+      }
     };
+
     fetchData();
   }, [bank, currency]);
 
-  return (
-    <Card className="md:w-[400px]">
+  if (!chartData) {
+    return <div>Loading chart data...</div>;
+  }
+
+  return bank && currency !== "" ? (
+    <Card className="w-full md:w-1/2">
       <CardHeader>
-        <CardTitle>Exchange Rate</CardTitle>
+        <CardTitle>
+          Comparison of{" "}
+          {bank === "nbe_exchange_rate"
+            ? "NBE"
+            : bank === "cbe_rates"
+            ? "CBE"
+            : bank === "wegagen_bank_rates"
+            ? "Wegagen Bank"
+            : bank === "zemen_bank_rates"
+            ? "Zemen Bank"
+            : bank === "amhara_bank_rates"
+            ? "Amhara Bank"
+            : bank === "abysinia_bank_rates"
+            ? "Abysinia Bank"
+            : bank === "awash_bank_rates"
+            ? "Awash Bank"
+            : "N/A"}{" "}
+          and{" "}
+          {bank === "nbe_exchange_rate"
+            ? "National Bank of Ethiopia"
+            : "National Bank"}
+        </CardTitle>
         <CardDescription>
-          Exchange rate relative to national bank of ethiopia
+          {bank === "nbe_exchange_rate"
+            ? "NBE"
+            : bank === "cbe_rates"
+            ? "CBE"
+            : bank === "amhara_bank_rates"
+            ? "Amhara Bank"
+            : bank === "wegagen_bank_rates"
+            ? "Wegagen Bank"
+            : bank === "zemen_bank_rates"
+            ? "Zemen Bank"
+            : bank === "abysinia_bank_rates"
+            ? "Abysinia Bank"
+            : bank === "awash_bank_rates"
+            ? "Awash Bank"
+            : "N/A"}
+          {" - "}
+          {currency}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <AreaChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
+          <BarChart accessibilityLayer data={Data}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"
               tickLine={false}
+              tickMargin={10}
               axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) => value.slice(0, 10)}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-            </defs>
-            <Area
-              dataKey="mobile"
-              type="natural"
-              fill="url(#fillMobile)"
-              fillOpacity={0.4}
-              stroke="var(--color-mobile)"
-              stackId="a"
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="url(#fillDesktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
-              stackId="a"
+            <Bar
+              dataKey={formattedBank}
+              fill="var(--color-desktop)"
+              radius={4}
             />
-          </AreaChart>
+            <Bar
+              dataKey="National Bank"
+              fill="var(--color-mobile)"
+              radius={4}
+            />
+          </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
-          </div>
+      <CardFooter className="flex-col items-start gap-2 text-sm">
+        <div className="flex gap-2 font-medium leading-none">
+          {formattedBank} - Cash Buying Difference
+          {chartData.difference.cashBuying} <TrendingUp className="h-4 w-4" />
+        </div>
+        <div className="leading-none text-muted-foreground">
+          Analysis on {chartData.comparedBank.timestamp}
         </div>
       </CardFooter>
     </Card>
+  ) : (
+    <div>Please select a bank and currency</div>
   );
-}
+};
+
+export default Chart;

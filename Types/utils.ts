@@ -45,3 +45,28 @@ export type BankExchangeAmount = {
 };
 
 export type LatestAmountProp = BankExchangeAmount[];
+
+export type ExchangeRateComparison = {
+  bankRate: {
+    name: string;
+    rate: {
+      cash_buying: number;
+      cash_selling: number;
+    };
+  };
+  nbeRate: {
+    name: string;
+    rate: {
+      cash_buying: number;
+      cash_selling: number;
+    };
+  };
+  buyingComparison: {
+    difference: string;
+    percentageDifference: string;
+  };
+  sellingComparison: {
+    difference: string;
+    percentageDifference: string;
+  };
+} | null;

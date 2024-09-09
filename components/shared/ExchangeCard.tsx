@@ -34,7 +34,6 @@ const currencies = [
   { value: "BHD", label: "BHD" },
   { value: "OMR", label: "OMR" },
   { value: "JOD", label: "JOD" },
-  { value: "KWD", label: "KWD" },
 ];
 
 const ExchangeCard: React.FC<{ latestExchange: LatestExchangeProp }> = ({
