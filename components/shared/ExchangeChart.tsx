@@ -136,6 +136,8 @@ const ExchangeChart = ({
             ? "Amhara Bank"
             : bank === "abysinia_bank_rates"
             ? "Abysinia Bank"
+            : bank === "dashen_bank_rates"
+            ? "Dashen Bank"
             : bank === "awash_bank_rates"
             ? "Awash Bank"
             : "N/A"}{" "}
