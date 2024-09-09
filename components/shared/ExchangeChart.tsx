@@ -149,6 +149,8 @@ const ExchangeChart = ({
             ? "NBE"
             : bank === "cbe_rates"
             ? "CBE"
+            : bank === "dashen_bank_rates"
+            ? "Dashen Bank"
             : bank === "amhara_bank_rates"
             ? "Amhara Bank"
             : bank === "wegagen_bank_rates"
