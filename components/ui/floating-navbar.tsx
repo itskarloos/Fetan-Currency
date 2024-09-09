@@ -62,13 +62,15 @@ export const FloatingNav = ({
           className
         )}
       >
-        <Image
-          src="/assets/logo.png"
-          alt="logo"
-          width={80}
-          height={30}
-          className="ml-1 md:mr-12 mr-2"
-        />
+        <Link href="/">
+          <Image
+            src="/assets/logo.png"
+            alt="logo"
+            width={80}
+            height={30}
+            className="ml-1 md:mr-12 mr-2"
+          />
+        </Link>
         {navItems.map((navItem: any, idx: number) => (
           <Link
             key={`link=${idx}`}
