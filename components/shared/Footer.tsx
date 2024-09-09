@@ -1,13 +1,22 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+
+
 const Footer = () => {
+ 
   return (
     <footer className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 py-8 transition-colors duration-200">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <Image src="/assets/logo.png" height={60} width={85} alt="logo" />
+            <Image
+              src="/assets/fetan(dark).png"
+              
+              height={60}
+              width={85}
+              alt="logo"
+            />
           </div>
           <nav className="flex flex-wrap justify-center md:justify-end">
             <Link

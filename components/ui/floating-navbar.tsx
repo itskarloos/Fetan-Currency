@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import ToggleButton from "../shared/ToggleButton";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export const FloatingNav = ({
   navItems,
@@ -23,7 +24,7 @@ export const FloatingNav = ({
   className?: string;
 }) => {
   const { scrollYProgress } = useScroll();
-
+  const Theme = useTheme();
   const [visible, setVisible] = useState(true);
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
@@ -64,10 +65,14 @@ export const FloatingNav = ({
       >
         <Link href="/">
           <Image
-            src="/assets/logo.png"
+            src={
+              Theme.theme === "dark"
+                ? "/assets/logo.png"
+                : "/assets/fetan(dark).png"
+            }
             alt="logo"
-            width={80}
-            height={30}
+            width={70}
+            height={25}
             className="ml-1 md:mr-12 mr-2"
           />
         </Link>
