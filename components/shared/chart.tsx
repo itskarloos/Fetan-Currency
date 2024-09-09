@@ -20,15 +20,16 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A multiple bar chart";
+export const description =
+  "Analysis of exchange rates between NBE and other banks.";
 
 const chartConfig = {
   desktop: {
-    label: "Desktop",
+    label: "NBE",
     color: "hsl(var(--chart-1))",
   },
   mobile: {
-    label: "Mobile",
+    label: "Other Banks",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
@@ -196,7 +197,7 @@ const Chart = ({ bank, currency }: { bank: string; currency: string }) => {
       </CardFooter>
     </Card>
   ) : (
-    <div>Please select a bank and currency</div>
+    <div>Please select a bank and currency.</div>
   );
 };
 
