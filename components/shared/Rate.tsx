@@ -4,7 +4,7 @@ import ExchangeCard from "./ExchangeCard";
 import { LatestExchangeProp } from "@/Types/utils";
 import ExchageTable from "./ExchageRateTable";
 import { useSearchParams } from "next/navigation";
-import Chart from "./Chart";
+import ExchangeChart from "./ExchangeChart";
 
 const Rate = ({ latestExchange }: { latestExchange: LatestExchangeProp }) => {
   const params = useSearchParams();
@@ -22,7 +22,7 @@ const Rate = ({ latestExchange }: { latestExchange: LatestExchangeProp }) => {
 
       <ExchangeCard latestExchange={latestExchange} />
       <ExchageTable latestExchange={latestExchange} />
-      <Chart bank={bank} currency={currency} />
+      <ExchangeChart bank={bank} currency={currency} />
     </div>
   );
 };

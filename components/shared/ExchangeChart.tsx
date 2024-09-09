@@ -54,7 +54,13 @@ interface ChartData {
   };
 }
 
-const Chart = ({ bank, currency }: { bank: string; currency: string }) => {
+const ExchangeChart = ({
+  bank,
+  currency,
+}: {
+  bank: string;
+  currency: string;
+}) => {
   const [chartData, setChartData] = useState<ChartData | null>(null);
 
   const formattedBank =
@@ -201,4 +207,4 @@ const Chart = ({ bank, currency }: { bank: string; currency: string }) => {
   );
 };
 
-export default Chart;
+export default ExchangeChart;
