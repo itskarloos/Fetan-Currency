@@ -93,7 +93,7 @@ const ExchangeCard: React.FC<{ latestExchange: LatestExchangeProp }> = ({
         type="number"
         value={amount}
         placeholder="Amount"
-        className="w-full mt-4"
+        className="w-full mt-4 text-sm"
         onChange={(e) => setAmount(e.target.value)}
       />
 
