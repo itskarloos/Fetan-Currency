@@ -84,18 +84,18 @@ const ExchangeChart = ({
   const Data = [
     {
       month: "Buying",
-      "National Bank": chartData?.nbe.cashBuying,
-      [formattedBank]: chartData?.comparedBank.cashBuying,
+      "National Bank": chartData?.nbe.cashBuying.toFixed(),
+      [formattedBank]: chartData?.comparedBank.cashBuying.toFixed(),
     },
     {
       month: "Selling",
-      "National Bank": chartData?.nbe.cashSelling,
-      [formattedBank]: chartData?.comparedBank.cashSelling,
+      "National Bank": chartData?.nbe.cashSelling.toFixed(),
+      [formattedBank]: chartData?.comparedBank.cashSelling.toFixed(),
     },
     {
       month: "Difference",
-      "National Bank": chartData?.difference.cashBuying,
-      [formattedBank]: chartData?.difference.cashSelling,
+      "National Bank": chartData?.difference.cashBuying.toFixed(),
+      [formattedBank]: chartData?.difference.cashSelling.toFixed(),
     },
   ];
 
@@ -195,7 +195,7 @@ const ExchangeChart = ({
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-1">
           {formattedBank} - Cash Buying Difference{" "}
-          {chartData.difference.cashBuying} <TrendingUp className="h-4 w-4" />
+          {(chartData.difference.cashBuying).toFixed()} <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
           Analysis on {chartData.comparedBank.timestamp}
