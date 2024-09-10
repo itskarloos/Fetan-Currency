@@ -65,10 +65,11 @@ export const FloatingNav = ({
       >
         <Link href="/">
           <Image
+            key={Theme.theme === "dark" ? "dark-logo" : "light-logo"}
             src={
               Theme.theme === "dark"
-                ? "/assets/logo.png"
-                : "/assets/fetan(dark).png"
+                ? "/assets/fetan(dark).png"
+                : "/assets/logo.png"
             }
             alt="logo"
             width={70}

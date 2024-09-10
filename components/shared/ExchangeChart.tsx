@@ -105,7 +105,6 @@ const ExchangeChart = ({
         try {
           const data = await compareBankToNBEExchangeRates(currency, bank);
           setChartData(data);
-          console.log(data);
         } catch (error) {
           console.error("Error fetching chart data:", error);
         }

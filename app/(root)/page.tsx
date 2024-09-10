@@ -1,10 +1,13 @@
 import React from "react";
 import Hero from "@/components/shared/Hero";
 import Rate from "@/components/shared/Rate";
-import { getLatestBankRates } from "@/lib/database/actions/exchangeRate.actions";
+import {
+ 
+  getLatestBankRates,
+} from "@/lib/database/actions/exchangeRate.actions";
 import { SearchParams } from "@/Types/utils";
 
-export const revalidate = 0; // This ensures the page is not cached
+// This ensures the page is not cached
 
 type HomeProps = {
   searchParams: {

@@ -1,12 +1,6 @@
 "use server";
 import getExchangeRateModel from "../models/exchange_rate"; // Path to your generic model
 import { connectToDatabase } from "../index";
-import { LRUCache } from "lru-cache";
-
-const cache = new LRUCache({
-  max: 100,
-  ttl: 1000 * 60 * 5, // 5 minutes
-});
 
 // List of bank collections
 const bankCollections = [
@@ -72,12 +66,66 @@ export const getNBEExchangeRates = async (currencyCode?: string) => {
   }
 };
 
+// export const getLatestBankRates = async (
+//   currencyCode?: string,
+//   bank?: string
+// ) => {
+//   try {
+//     // Ensure database connection is established
+//     await connectToDatabase();
+
+//     let banksToQuery = bank ? [bank] : bankCollections;
+
+//     const latestRates = await Promise.all(
+//       banksToQuery.map(async (bankName) => {
+//         const BankModel = getExchangeRateModel(bankName);
+//         const latestRate = await BankModel.findOne()
+//           .sort({ timestamp: -1 })
+//           .limit(1);
+
+//         if (!latestRate) {
+//           return { bank: bankName, latestExchangeRate: null };
+//         }
+
+//         const formattedRates = latestRate.exchange_rates.reduce(
+//           (
+//             acc: Record<string, { cash_buying: number; cash_selling: number }>,
+//             rate: any
+//           ) => {
+//             if (
+//               !currencyCode ||
+//               rate.currency_code.toLowerCase() === currencyCode.toLowerCase()
+//             ) {
+//               acc[rate.currency_code] = {
+//                 cash_buying: parseFloat(rate.cash_buying),
+//                 cash_selling: parseFloat(rate.cash_selling),
+//               };
+//             }
+//             return acc;
+//           },
+//           {}
+//         );
+
+//         return {
+//           bank: bankName,
+//           timestamp: latestRate.timestamp,
+//           rates: formattedRates,
+//         };
+//       })
+//     );
+
+//     return latestRates;
+//   } catch (error) {
+//     console.error("Error fetching latest bank rates:", error);
+//     throw new Error("Failed to fetch latest bank rates");
+//   }
+// };
+
 export const getLatestBankRates = async (
   currencyCode?: string,
   bank?: string
 ) => {
   try {
-    // Ensure database connection is established
     await connectToDatabase();
 
     let banksToQuery = bank ? [bank] : bankCollections;
@@ -85,9 +133,12 @@ export const getLatestBankRates = async (
     const latestRates = await Promise.all(
       banksToQuery.map(async (bankName) => {
         const BankModel = getExchangeRateModel(bankName);
+        console.log(`Querying ${bankName}...`);
         const latestRate = await BankModel.findOne()
           .sort({ timestamp: -1 })
           .limit(1);
+
+        console.log(`Result for ${bankName}:`, latestRate);
 
         if (!latestRate) {
           return { bank: bankName, latestExchangeRate: null };
@@ -120,12 +171,59 @@ export const getLatestBankRates = async (
       })
     );
 
+    // Log the fetched rates for debugging
+    console.log("Fetched rates:", JSON.stringify(latestRates, null, 2));
+
     return latestRates;
   } catch (error) {
     console.error("Error fetching latest bank rates:", error);
     throw new Error("Failed to fetch latest bank rates");
   }
 };
+
+export async function getAllDashenBankRates() {
+  try {
+    console.log("Fetching all Dashen Bank rates...");
+    const DashenBankModel = getExchangeRateModel("awash_bank_rates");
+
+    const allRates = await DashenBankModel.find().sort({ timestamp: -1 });
+
+    if (!allRates || allRates.length === 0) {
+      console.log("No rates found for Dashen Bank");
+      return [];
+    }
+
+    const formattedRates = allRates.map((rate) => ({
+      timestamp: rate.timestamp,
+      rates: rate.exchange_rates.reduce(
+        (
+          acc: Record<string, { cash_buying: number; cash_selling: number }>,
+          currencyRate: any
+        ) => {
+          acc[currencyRate.currency_code] = {
+            cash_buying: parseFloat(currencyRate.cash_buying),
+            cash_selling: parseFloat(currencyRate.cash_selling),
+          };
+          return acc;
+        },
+        {}
+      ),
+    }));
+
+    const result = {
+      bank: "dashen Bank",
+      exchangeRates: formattedRates,
+    };
+
+    console.log(
+      `Fetched ${formattedRates.length} rate records for Dashen Bank`
+    );
+    return result;
+  } catch (error) {
+    console.error("Error fetching all Dashen Bank rates:", error);
+    throw new Error("Failed to fetch all Dashen Bank rates");
+  }
+}
 
 export async function compareBankToNBEExchangeRates(
   currencyCode: string,

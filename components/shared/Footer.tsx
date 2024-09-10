@@ -2,9 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-
 const Footer = () => {
- 
   return (
     <footer className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 py-8 transition-colors duration-200">
       <div className="container mx-auto px-4">
@@ -12,7 +10,6 @@ const Footer = () => {
           <div className="mb-4 md:mb-0">
             <Image
               src="/assets/fetan(dark).png"
-              
               height={60}
               width={85}
               alt="logo"
