@@ -20,7 +20,7 @@ export default async function Home({ searchParams }: HomeProps) {
   );
 
   return (
-    <div className="w-full dark:border dark:border-white/[0.1] overflow-clip">
+    <div className="w-full overflow-clip">
       <Hero />
       <Rate latestExchange={latestBankRate} />
     </div>
