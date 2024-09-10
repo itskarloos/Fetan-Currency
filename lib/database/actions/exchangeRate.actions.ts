@@ -1,6 +1,7 @@
 "use server";
 import getExchangeRateModel from "../models/exchange_rate"; // Path to your generic model
 import { connectToDatabase } from "../index";
+import { cache } from "react";
 
 // List of bank collections
 const bankCollections = [
@@ -13,6 +14,14 @@ const bankCollections = [
   "wegagen_bank_rates",
   "zemen_bank_rates",
 ];
+
+// Cache object to store the latest rates
+const ratesCache: {
+  [key: string]: { timestamp: Date; data: any };
+} = {};
+
+// Cache expiration time (e.g., 5 minutes)
+const CACHE_EXPIRATION = 5 * 60 * 1000;
 
 // Function to get the NBE exchange rates without sorting
 export const getNBEExchangeRates = async (currencyCode?: string) => {
@@ -121,65 +130,82 @@ export const getNBEExchangeRates = async (currencyCode?: string) => {
 //   }
 // };
 
-export const getLatestBankRates = async (
-  currencyCode?: string,
-  bank?: string
-) => {
-  try {
-    await connectToDatabase();
+export const getLatestBankRates = cache(
+  async (currencyCode?: string, bank?: string) => {
+    try {
+      await connectToDatabase();
 
-    let banksToQuery = bank ? [bank] : bankCollections;
+      let banksToQuery = bank ? [bank] : bankCollections;
+      const cacheKey = `${currencyCode || "all"}_${bank || "all"}`;
 
-    const latestRates = await Promise.all(
-      banksToQuery.map(async (bankName) => {
-        const BankModel = getExchangeRateModel(bankName);
-        console.log(`Querying ${bankName}...`);
-        const latestRate = await BankModel.findOne()
-          .sort({ timestamp: -1 })
-          .limit(1);
+      // Check if cached data is available and not expired
+      if (
+        ratesCache[cacheKey] &&
+        Date.now() - ratesCache[cacheKey].timestamp.getTime() < CACHE_EXPIRATION
+      ) {
+        console.log("Returning cached data");
+        return ratesCache[cacheKey].data;
+      }
 
-        console.log(`Result for ${bankName}:`, latestRate);
+      const latestRates = await Promise.all(
+        banksToQuery.map(async (bankName) => {
+          const BankModel = getExchangeRateModel(bankName);
+          console.log(`Querying ${bankName}...`);
+          const latestRate = await BankModel.findOne()
+            .sort({ timestamp: -1 })
+            .limit(1);
 
-        if (!latestRate) {
-          return { bank: bankName, latestExchangeRate: null };
-        }
+          console.log(`Result for ${bankName}:`, latestRate);
 
-        const formattedRates = latestRate.exchange_rates.reduce(
-          (
-            acc: Record<string, { cash_buying: number; cash_selling: number }>,
-            rate: any
-          ) => {
-            if (
-              !currencyCode ||
-              rate.currency_code.toLowerCase() === currencyCode.toLowerCase()
-            ) {
-              acc[rate.currency_code] = {
-                cash_buying: parseFloat(rate.cash_buying),
-                cash_selling: parseFloat(rate.cash_selling),
-              };
-            }
-            return acc;
-          },
-          {}
-        );
+          if (!latestRate) {
+            return { bank: bankName, latestExchangeRate: null };
+          }
 
-        return {
-          bank: bankName,
-          timestamp: latestRate.timestamp,
-          rates: formattedRates,
-        };
-      })
-    );
+          const formattedRates = latestRate.exchange_rates.reduce(
+            (
+              acc: Record<
+                string,
+                { cash_buying: number; cash_selling: number }
+              >,
+              rate: any
+            ) => {
+              if (
+                !currencyCode ||
+                rate.currency_code.toLowerCase() === currencyCode.toLowerCase()
+              ) {
+                acc[rate.currency_code] = {
+                  cash_buying: parseFloat(rate.cash_buying),
+                  cash_selling: parseFloat(rate.cash_selling),
+                };
+              }
+              return acc;
+            },
+            {}
+          );
 
-    // Log the fetched rates for debugging
-    console.log("Fetched rates:", JSON.stringify(latestRates, null, 2));
+          return {
+            bank: bankName,
+            timestamp: latestRate.timestamp,
+            rates: formattedRates,
+          };
+        })
+      );
 
-    return latestRates;
-  } catch (error) {
-    console.error("Error fetching latest bank rates:", error);
-    throw new Error("Failed to fetch latest bank rates");
+      // Cache the fetched rates
+      ratesCache[cacheKey] = {
+        timestamp: new Date(),
+        data: latestRates,
+      };
+
+      console.log("Fetched rates:", JSON.stringify(latestRates, null, 2));
+
+      return latestRates;
+    } catch (error) {
+      console.error("Error fetching latest bank rates:", error);
+      throw new Error("Failed to fetch latest bank rates");
+    }
   }
-};
+);
 
 export async function getAllDashenBankRates() {
   try {

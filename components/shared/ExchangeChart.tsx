@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import React, { useEffect, useState } from "react";
 import { compareBankToNBEExchangeRates } from "@/lib/database/actions/exchangeRate.actions";
 import { TrendingUp } from "lucide-react";
@@ -115,7 +116,25 @@ const ExchangeChart = ({
   }, [bank, currency]);
 
   if (!chartData) {
-    return <div>Loading chart data...</div>;
+    return (
+      <Card className="w-full md:w-[500px]">
+        <CardHeader>
+          <CardTitle>
+            <Skeleton className="h-6 w-3/4" />
+          </CardTitle>
+          <CardDescription>
+            <Skeleton className="h-4 w-1/2" />
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-[200px] w-full" />
+        </CardContent>
+        <CardFooter className="flex-col items-start gap-2">
+          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-3 w-1/2" />
+        </CardFooter>
+      </Card>
+    );
   }
 
   return bank && currency !== "" ? (
