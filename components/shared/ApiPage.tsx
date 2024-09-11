@@ -59,7 +59,7 @@ fetch('https://fetan.co/api/exchange-rate')
           Free API for Developers
         </h2>
         <p className="text-base md:text-lg text-center mb-6 max-w-2xl mx-auto dark:text-gray-300">
-          We believe in empowering developers. That's why we've made our API
+          We believe in empowering developers. That&apos;s why we&apos;ve made our API
           completely free to use. Our goal is to make your life a bit easier by
           providing reliable, up-to-date exchange rate data without any cost
           barriers.
