@@ -4,8 +4,8 @@ import { Button } from "../ui/button";
 
 const ApiPage = () => {
   return (
-    <HeroHighlight className="flex flex-col md:flex-row items-start justify-center mx-auto min-h-screen pt-10 md:pt-20 mb-10">
-      <div className="flex m-5 mt-16 md:ml-10 w-full md:w-1/2 flex-col items-start justify-center">
+    <HeroHighlight className="flex flex-col md:flex-row items-start justify-center mx-auto pt-20 md:pt-20 mb-10">
+      <div className="flex m-5 mt-20 md:ml-10 w-full md:w-1/2 flex-col items-start justify-center">
         <h1 className="text-left w-[200px] md:w-full md:text-8xl text-5xl font-bold mb-1 dark:text-white">
           Developers Portal
         </h1>
@@ -14,7 +14,7 @@ const ApiPage = () => {
         </p>
         <Button>Explore Guide</Button>
       </div>
-      <div className="flex justify-center items-end md:items-center w-full md:w-1/2 mb-10">
+      <div className="md:mt-10 flex justify-center items-end md:items-center w-full md:w-1/2 mb-10">
         <div className="bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md w-full max-w-xl transition-all duration-300 hover:shadow-lg hover:scale-105 m-4">
           <div className="flex items-center justify-between px-4 py-3 bg-gray-200 dark:bg-gray-700">
             <div className="flex space-x-2">
