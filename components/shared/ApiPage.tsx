@@ -18,15 +18,15 @@ const ApiPage = () => {
         <div className="bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md w-full max-w-xl transition-all duration-300 hover:shadow-lg hover:scale-105 m-4">
           <div className="flex items-center justify-between px-4 py-3 bg-gray-200 dark:bg-gray-700">
             <div className="flex space-x-2">
-              <div className="w-3 h-3 rounded-full bg-red-400 dark:bg-red-500 cursor-pointer hover:bg-red-500 dark:hover:bg-red-600 transition-colors"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-400 dark:bg-yellow-500 cursor-pointer hover:bg-yellow-500 dark:hover:bg-yellow-600 transition-colors"></div>
-              <div className="w-3 h-3 rounded-full bg-green-400 dark:bg-green-500 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 transition-colors"></div>
+              <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-red-400 dark:bg-red-500 cursor-pointer hover:bg-red-500 dark:hover:bg-red-600 transition-colors"></div>
+              <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-yellow-400 dark:bg-yellow-500 cursor-pointer hover:bg-yellow-500 dark:hover:bg-yellow-600 transition-colors"></div>
+              <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-green-400 dark:bg-green-500 cursor-pointer hover:bg-green-500 dark:hover:bg-green-600 transition-colors"></div>
             </div>
-            <div className="text-xs text-gray-700 dark:text-gray-300 cursor-pointer hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
+            <div className="text-[10px] md:text-xs text-gray-700 dark:text-gray-300 cursor-pointer hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
               Exchange Rates API
             </div>
           </div>
-          <pre className="text-gray-800 rounded-lg dark:text-gray-200 p-4 md:p-6 overflow-x-auto font-mono text-xs md:text-sm bg-gray-50 dark:bg-gray-900">
+          <pre className="text-gray-800 rounded-lg dark:text-gray-200 p-2 md:p-4 lg:p-6 overflow-x-auto font-mono text-[8px] sm:text-[10px] md:text-xs lg:text-sm bg-gray-50 dark:bg-gray-900">
             <code className="language-javascript">
               {`
 // Install the package
