@@ -71,9 +71,8 @@ export async function POST(req: Request) {
     };
 
     try {
-      const newUser = await createUser(user);
-      console.log("newUser", newUser);
-      return NextResponse.json({ message: "ok", user: newUser });
+      console.log(user);
+      return NextResponse.json({ message: "ok", user: user });
     } catch (error) {
       console.error("Error creating user:", error);
       return NextResponse.json(
