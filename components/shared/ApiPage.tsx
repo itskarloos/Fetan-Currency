@@ -9,7 +9,7 @@ const ApiPage = () => {
         <h1 className="text-left w-[200px] md:w-full md:text-8xl text-5xl font-bold mb-1 dark:text-white">
           Developers Portal
         </h1>
-        <p className="w-[350px] md:w-full text-left md:text-xl text-base mb-3 dark:text-white">
+        <p className="w-[300px] md:w-full text-left md:text-xl text-base mb-3 dark:text-white">
           Get access to our API to build your own applications.
         </p>
         <Button>Explore Guide</Button>
