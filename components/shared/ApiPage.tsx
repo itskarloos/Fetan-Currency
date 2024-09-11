@@ -11,10 +11,10 @@ const ApiPage = () => {
             Developers Portal
           </h1>
           <p className="w-[300px] md:w-full text-left md:text-xl text-base mb-3 dark:text-white">
-            Get access to our powerful API to build your own applications and
-            integrate real-time exchange rate data seamlessly.
+            Access our powerful API to build applications with real-time
+            exchange rate data.
           </p>
-          <Button>Explore Guide</Button>
+          <Button>Get API Key</Button>
         </div>
         <div className="md:mt-10 flex justify-center items-end md:items-center w-full md:w-1/2 mb-10">
           <div className="bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md w-full max-w-xl transition-all duration-300 hover:shadow-lg hover:scale-105 m-4">
@@ -54,23 +54,6 @@ fetch('https://fetan.co/api/exchange-rate')
           </div>
         </div>
       </HeroHighlight>
-      <div className="w-full mt-10 px-4 md:px-0">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-center dark:text-white">
-          Free API for Developers
-        </h2>
-        <p className="text-base md:text-lg text-center mb-6 max-w-2xl mx-auto dark:text-gray-300">
-          We believe in empowering developers. That&apos;s why we&apos;ve made our API
-          completely free to use. Our goal is to make your life a bit easier by
-          providing reliable, up-to-date exchange rate data without any cost
-          barriers.
-        </p>
-        <div className="flex justify-center">
-          <Button variant="outline" className="mr-4">
-            Get API Key
-          </Button>
-          <Button>View Documentation</Button>
-        </div>
-      </div>
     </>
   );
 };
