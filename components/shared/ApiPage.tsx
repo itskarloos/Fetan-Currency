@@ -79,12 +79,12 @@ fetch('https://fetan.co/api/exchange-rate')
       <SignedIn>
         <HeroHighlight className="flex flex-col md:flex-row items-start justify-center mx-auto pt-20 md:pt-20 mb-10">
           <div className="flex m-5 mt-20 md:ml-10 w-full md:w-1/2 flex-col items-start justify-center">
-            <h1 className="text-left w-[200px] md:w-full md:text-8xl text-5xl font-bold mb-1 dark:text-white">
+            <h1 className="text-left w-[200px] md:w-full md:text-8xl text-5xl font-bold mb-2 dark:text-white">
               Hey, {firstName}
             </h1>
             <p className="w-[300px] md:w-full text-left md:text-xl text-base mb-3 dark:text-white">
-              Access our powerful API to build applications with real-time
-              exchange rate data.
+              Welcome, {firstName}! Our API docs and tutorials are here to help
+              you integrate exchange rates into your app. Let's get started!
             </p>
             <SignedOut>
               <Button

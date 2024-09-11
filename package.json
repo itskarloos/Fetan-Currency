@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "firebase": "^10.13.1",
     "framer-motion": "^11.3.31",
     "lucide-react": "^0.437.0",
     "mini-svg-data-uri": "^1.4.4",
@@ -32,6 +33,7 @@
     "react-dom": "^18",
     "react-syntax-highlighter": "^15.5.0",
     "recharts": "^2.12.7",
+    "svix": "^1.32.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"
   },
