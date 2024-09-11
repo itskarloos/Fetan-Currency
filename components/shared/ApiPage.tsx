@@ -84,7 +84,8 @@ fetch('https://fetan.co/api/exchange-rate')
             </h1>
             <p className="w-[300px] md:w-full text-left md:text-xl text-base mb-3 dark:text-white">
               Welcome, {firstName}! Our API docs and tutorials are here to help
-              you integrate exchange rates into your app. Let's get started!
+              you integrate exchange rates into your app. Let&apos;s get
+              started!
             </p>
             <SignedOut>
               <Button
