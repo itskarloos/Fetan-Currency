@@ -142,12 +142,18 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
               <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-300">
                 Your API Key
               </h3>
-              <div className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg relative">
-                <pre className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200 overflow-x-auto">
-                  <code>{userData?.apiKey || "No API key found"}</code>
-                </pre>
-                <CopyButton apiKey={userData?.apiKey || ""} />
-              </div>
+              <pre className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg overflow-x-auto">
+                <code className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200">
+                  {`fetch('https://fetan-currency.vercel.app/api/exchange-rates', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY'
+  }
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));`}
+                </code>
+              </pre>
             </div>
 
             <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4 sm:p-5 md:p-6">
@@ -177,8 +183,8 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
                 Response Format
               </h3>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
-                The API returns an array of objects, each representing a bank's
-                exchange rates. Here's an example of the structure:
+                The API returns an array of objects, each representing a
+                bank&apos;s exchange rates. Here's an example of the structure:
               </p>
               <pre className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg overflow-x-auto">
                 <code className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200">
