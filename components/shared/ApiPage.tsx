@@ -180,8 +180,9 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
                 Response Format
               </h3>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
-                The API returns an array of objects, each representing a bank's
-                exchange rates. Here's an example of the structure:
+                The API returns an array of objects, each representing a
+                bank&apos;s exchange rates. Here&apos;s an example of the
+                structure:
               </p>
               <pre className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg overflow-x-auto">
                 <code className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200">
@@ -213,7 +214,7 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
               </h3>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
                 You can iterate through the array to access rates for different
-                banks. Here's an example of how to work with the data:
+                banks. Here&apos;s an example of how to work with the data:
               </p>
               <pre className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg overflow-x-auto">
                 <code className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200">
