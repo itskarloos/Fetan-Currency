@@ -12,9 +12,9 @@ import { CopyButton } from "./CopyButton";
 
 const ApiPage = async () => {
   const { userId, sessionClaims } = auth();
-  let userData: any = [];
+  let userData: any;
   if (userId) {
-    const userData = await getUserById(userId ?? "");
+    userData = await getUserById(userId ?? "");
     console.log(userData);
   }
   let firstName = "";
