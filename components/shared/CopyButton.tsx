@@ -17,7 +17,7 @@ export const CopyButton = ({ apiKey }: { apiKey: string }) => {
       onClick={handleCopy}
       variant="ghost"
       size="icon"
-      className="absolute top-0 md:top-2 right-0 md:right-2 text-gray-500 bg-gray-800 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+      className="absolute justify-center right-0 md:right-2 text-gray-500 bg-gray-800 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
       title={copied ? "Copied!" : "Copy API Key"}
     >
       <ClipboardCopy className="h-4 w-4" />

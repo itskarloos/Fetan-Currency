@@ -19,9 +19,11 @@ const banks = [
   { value: "bank_of_abyssinia_rates", label: "Abysinya" },
   { value: "nbe_exchange_rates", label: "Nbe" },
   { value: "wegagen_bank_rates", label: "Wegagen" },
+  { value: "", label: "None" },
 ];
 
 const currencies = [
+  { value: "", label: "None" },
   { value: "USD", label: "USD" },
   { value: "EUR", label: "EUR" },
   { value: "GBP", label: "GBP" },
