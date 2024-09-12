@@ -12,8 +12,11 @@ import { CopyButton } from "./CopyButton";
 
 const ApiPage = async () => {
   const { userId, sessionClaims } = auth();
-  const userData = await getUserById(userId ?? "");
-  console.log(userData);
+  let userData: any = [];
+  if (userId) {
+    const userData = await getUserById(userId ?? "");
+    console.log(userData);
+  }
   let firstName = "";
   if (userId && sessionClaims && typeof sessionClaims.firstName === "string") {
     firstName = sessionClaims.firstName;
@@ -114,11 +117,11 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
                   Exchange Rates API
                 </div>
               </div>
-              <pre className="text-gray-800 rounded-lg dark:text-gray-200 p-2 md:p-4 lg:p-6 overflow-x-auto font-mono text-[8px] sm:text-[10px] md:text-xs lg:text-sm bg-gray-50 dark:bg-gray-900">
-                <code className="text-[8px] xs:text-[10px] sm:text-xs md:text-sm lg:text-base text-gray-800 dark:text-gray-200">
+              <pre className="text-gray-800 rounded-lg dark:text-gray-200 p-1 sm:p-2 md:p-4 lg:p-6 overflow-x-auto font-mono text-[6px] xs:text-[8px] sm:text-[10px] md:text-xs lg:text-sm bg-gray-50 dark:bg-gray-900">
+                <code className="text-[8px] xs:text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200 whitespace-pre-wrap break-words">
                   {`fetch('https://fetan-currency.vercel.app/api/exchange-rates', {
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
+    'Authorization': 'YOUR_API_KEY'
   }
 })
 .then(response => response.json())
@@ -142,18 +145,12 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
               <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-300">
                 Your API Key
               </h3>
-              <pre className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg overflow-x-auto">
-                <code className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200">
-                  {`fetch('https://fetan-currency.vercel.app/api/exchange-rates', {
-  headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
-  }
-})
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));`}
-                </code>
-              </pre>
+              <div className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg relative">
+                <pre className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200 overflow-x-auto">
+                  <code>{userData?.apiKey || "No API key found"}</code>
+                </pre>
+                <CopyButton apiKey={userData?.apiKey || ""} />
+              </div>
             </div>
 
             <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4 sm:p-5 md:p-6">
@@ -183,9 +180,8 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
                 Response Format
               </h3>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
-                The API returns an array of objects, each representing a
-                bank&apos;s exchange rates. Here&apos;s an example of the
-                structure:
+                The API returns an array of objects, each representing a bank's
+                exchange rates. Here's an example of the structure:
               </p>
               <pre className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg overflow-x-auto">
                 <code className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200">
@@ -217,7 +213,7 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
               </h3>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
                 You can iterate through the array to access rates for different
-                banks. Here&apos;s an example of how to work with the data:
+                banks. Here's an example of how to work with the data:
               </p>
               <pre className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg overflow-x-auto">
                 <code className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200">
