@@ -115,15 +115,15 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
                 </div>
               </div>
               <pre className="text-gray-800 rounded-lg dark:text-gray-200 p-2 md:p-4 lg:p-6 overflow-x-auto font-mono text-[8px] sm:text-[10px] md:text-xs lg:text-sm bg-gray-50 dark:bg-gray-900">
-                <code className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200">
+                <code className="text-[8px] xs:text-[10px] sm:text-xs md:text-sm lg:text-base text-gray-800 dark:text-gray-200">
                   {`fetch('https://fetan-currency.vercel.app/api/exchange-rates', {
   headers: {
     'Authorization': 'Bearer YOUR_API_KEY'
   }
 })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));`}
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));`}
                 </code>
               </pre>
             </div>
