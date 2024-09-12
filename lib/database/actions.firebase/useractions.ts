@@ -1,5 +1,5 @@
 import { db } from "@/config/firebase";
-import { doc, setDoc, getDoc,collection,getDocs } from "firebase/firestore";
+import { doc, setDoc, getDoc, collection, getDocs } from "firebase/firestore";
 
 type User = {
   clerkId: string;
@@ -52,10 +52,10 @@ export const getUserById = async (userId: string): Promise<User | null> => {
     if (userSnap.exists()) {
       const userData = userSnap.data() as Omit<User, "clerkId">;
       const user = { ...userData, clerkId: userSnap.id };
-      
+
       // Store the user in the cache
       userCache.set(userId, user);
-      
+
       return user;
     } else {
       return null;
@@ -66,21 +66,22 @@ export const getUserById = async (userId: string): Promise<User | null> => {
   }
 };
 
-export const getAllApiKeys = async (): Promise<Record<string, string>> => {
+export const getAllApiKeys = async (): Promise<Record<string, boolean>> => {
   try {
     const usersRef = collection(db, "users");
     const usersSnap = await getDocs(usersRef);
-    
-    const apiKeys: Record<string, string> = {};
+
+    const apiKeys: Record<string, boolean> = {};
     usersSnap.forEach((doc) => {
       const userData = doc.data() as User;
-      apiKeys[doc.id] = userData.apiKey;
+      if (userData.apiKey) {
+        apiKeys[userData.apiKey] = true;
+      }
     });
-    
+
     return apiKeys;
   } catch (error) {
     console.error("Error fetching all API keys:", error);
     return {};
   }
 };
-

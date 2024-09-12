@@ -5,7 +5,10 @@ import { SignedIn, SignedOut, SignInButton, useSession } from "@clerk/nextjs";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { currentUser } from "@clerk/nextjs/server";
-import { getUserById } from "@/lib/database/actions.firebase/useractions";
+import {
+  getAllApiKeys,
+  getUserById,
+} from "@/lib/database/actions.firebase/useractions";
 import { Button } from "@/components/ui/button";
 
 import { CopyButton } from "./CopyButton";
@@ -13,9 +16,10 @@ import { CopyButton } from "./CopyButton";
 const ApiPage = async () => {
   const { userId, sessionClaims } = auth();
   let userData: any;
+  let apiKeys: any;
   if (userId) {
     userData = await getUserById(userId ?? "");
-    console.log(userData);
+    apiKeys = await getAllApiKeys();
   }
   let firstName = "";
   if (userId && sessionClaims && typeof sessionClaims.firstName === "string") {
