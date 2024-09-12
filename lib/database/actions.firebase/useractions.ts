@@ -1,5 +1,5 @@
 import { db } from "@/config/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc,collection,getDocs } from "firebase/firestore";
 
 type User = {
   clerkId: string;
@@ -63,6 +63,24 @@ export const getUserById = async (userId: string): Promise<User | null> => {
   } catch (error) {
     console.error("Error fetching user:", error);
     return null;
+  }
+};
+
+export const getAllApiKeys = async (): Promise<Record<string, string>> => {
+  try {
+    const usersRef = collection(db, "users");
+    const usersSnap = await getDocs(usersRef);
+    
+    const apiKeys: Record<string, string> = {};
+    usersSnap.forEach((doc) => {
+      const userData = doc.data() as User;
+      apiKeys[doc.id] = userData.apiKey;
+    });
+    
+    return apiKeys;
+  } catch (error) {
+    console.error("Error fetching all API keys:", error);
+    return {};
   }
 };
 
