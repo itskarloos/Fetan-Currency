@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 // Data
 const banks = [
+  { value: "", label: "All" },
   { value: "cbe_rates", label: "Cbe" },
   { value: "amhara_bank_rates", label: "Amhara" },
   { value: "dashen_bank_rates", label: "Dashen" },
@@ -19,11 +20,10 @@ const banks = [
   { value: "bank_of_abyssinia_rates", label: "Abysinya" },
   { value: "nbe_exchange_rates", label: "Nbe" },
   { value: "wegagen_bank_rates", label: "Wegagen" },
-  { value: "", label: "None" },
 ];
 
 const currencies = [
-  { value: "", label: "None" },
+  { value: "", label: "All" },
   { value: "USD", label: "USD" },
   { value: "EUR", label: "EUR" },
   { value: "GBP", label: "GBP" },
