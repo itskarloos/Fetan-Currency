@@ -125,7 +125,7 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
                 <code className="text-[8px] xs:text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200 whitespace-pre-wrap break-words">
                   {`fetch('https://fetan-currency.vercel.app/api/exchange-rates', {
   headers: {
-    'Authorization': 'YOUR_API_KEY'
+    'apiKey': 'YOUR_API_KEY'
   }
 })
 .then(response => response.json())
@@ -145,11 +145,11 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
           </h2>
 
           <div className="space-y-6 sm:space-y-8 md:space-y-12">
-            <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4 sm:p-5 md:p-6">
+            <div className="bg-white dark:bg-gray-900 shadow rounded-lg p-4 sm:p-5 md:p-6">
               <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-300">
                 Your API Key
               </h3>
-              <div className="bg-gray-100 dark:bg-gray-700 p-3 sm:p-4 rounded-lg relative">
+              <div className="bg-gray-100 dark:bg-zinc-700 p-3 sm:p-4 rounded-lg relative">
                 <pre className="text-xs sm:text-sm md:text-base text-gray-800 dark:text-gray-200 overflow-x-auto">
                   <code>{userData?.apiKey || "No API key found"}</code>
                 </pre>
@@ -243,3 +243,12 @@ fetch('https://fetan-currency.vercel.app/api/exchange-rates')
 };
 
 export default ApiPage;
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */

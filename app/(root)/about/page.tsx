@@ -1,19 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+
 import { AboutHero } from "@/components/shared/AboutHero";
+import { AboutContent } from "@/components/shared/AboutContent";
 
 const AboutPage = () => {
-  
-
   return (
-    <div>
-      <AboutHero />
+    <div className="my-20">
+      <AboutContent />
     </div>
-  )
+  );
 };
 
 export default AboutPage;
