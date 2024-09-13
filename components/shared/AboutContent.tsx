@@ -99,6 +99,5 @@ const Contents = [
     ),
     badge: "Behind Fetan",
     image: "/assets/Team/Nahom & Michael.png",
-    
   },
 ];
