@@ -20,6 +20,8 @@ const banks = [
   { value: "bank_of_abyssinia_rates", label: "Abysinya" },
   { value: "nbe_exchange_rates", label: "Nbe" },
   { value: "wegagen_bank_rates", label: "Wegagen" },
+  { value: "coop_bank_rates", label: "Coop" },
+  { value: "oromia_bank_rates", label: "Oromia" },
 ];
 
 const currencies = [

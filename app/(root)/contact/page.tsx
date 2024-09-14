@@ -1,133 +1,147 @@
 "use client";
 
-import React, { useState } from "react";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { useState } from "react";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 
 const ContactPage = () => {
-  const [formState, setFormState] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
     message: "",
   });
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
 
-  const handleInputChange = (
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form submitted:", formState);
-    // Reset form after submission
-    setFormState({ name: "", email: "", subject: "", message: "" });
+    setStatus("loading");
+
+    // Simulate form submission
+    setTimeout(() => {
+      // Integrate with your backend API here
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+    }, 2000);
   };
 
   return (
-    <div className="container mx-auto px-4 my-20">
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-4xl font-bold text-center mb-12"
-      >
-        Get in Touch
-      </motion.h1>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-white p-8 rounded-lg shadow-lg"
-        >
-          <h2 className="text-2xl font-semibold mb-6">Send Us a Message</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              name="name"
-              placeholder="Your Name"
-              value={formState.name}
-              onChange={handleInputChange}
-              required
+    // <HeroHighlight>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 p-5 w-full items-center justify-between">
+        <Card className="relative h-[280px] md:h-[600px] md:w-max-[600px] overflow-hidden">
+          <CardContent className="p-0">
+            <Image
+              src="/assets/BusinessCard.jpg"
+              alt="Contact"
+              layout="fill"
+              objectFit="cover"
+              className="brightness-75"
             />
-            <Input
-              name="email"
-              type="email"
-              placeholder="Your Email"
-              value={formState.email}
-              onChange={handleInputChange}
-              required
-            />
-            <Input
-              name="subject"
-              placeholder="Subject"
-              value={formState.subject}
-              onChange={handleInputChange}
-              required
-            />
-            <Textarea
-              name="message"
-              placeholder="Your Message"
-              rows={4}
-              value={formState.message}
-              onChange={handleInputChange}
-              required
-            />
-            <Button type="submit" className="w-full group">
-              <span className="mr-2">Send Message</span>
-              <Send
-                className="inline-block transition-transform group-hover:translate-x-1"
-                size={18}
-              />
-            </Button>
-          </form>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="space-y-8"
-        >
-          <div className="bg-white p-8 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6">Contact Information</h2>
-            <div className="space-y-4">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center space-x-3"
-              >
-                <Mail className="text-primary" />
-                <span>info@example.com</span>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center space-x-3"
-              >
-                <Phone className="text-primary" />
-                <span>+1 (123) 456-7890</span>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center space-x-3"
-              >
-                <MapPin className="text-primary" />
-                <span>123 Main St, City, Country</span>
-              </motion.div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/50 to-purple-500/50" />
+            <div className="absolute bottom-8 left-8 text-white">
+              <CardTitle className="text-3xl font-bold mb-2">
+                Get in Touch
+              </CardTitle>
+              <CardDescription className="text-lg text-white">
+                We'd love to hear from you!
+              </CardDescription>
             </div>
-          </div>
-
-          <div className="h-64 rounded-lg overflow-hidden shadow-lg bg-gray-200 flex items-center justify-center">
-            <p className="text-gray-600">Map placeholder</p>
-          </div>
-        </motion.div>
+          </CardContent>
+        </Card>
+        <Card className="flex-1">
+          <CardHeader>
+            <CardTitle className="text-3xl font-bold text-center">
+              Contact Us
+            </CardTitle>
+            <CardDescription className="text-center">
+              We'd love to hear from you!
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Name
+                </label>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Email
+                </label>
+                <Input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Message
+                </label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  className="w-full h-32"
+                />
+              </div>
+              <div className="flex justify-center">
+                <Button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="w-full sm:w-auto"
+                >
+                  {status === "loading" ? "Sending..." : "Send Message"}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
+    // </HeroHighlight>
   );
 };
 
