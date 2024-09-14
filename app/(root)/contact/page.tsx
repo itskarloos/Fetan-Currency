@@ -61,7 +61,7 @@ const ContactPage = () => {
                 Get in Touch
               </CardTitle>
               <CardDescription className="text-lg text-white">
-                We&aposd love to hear from you!
+                We/‘d love to hear from you!
               </CardDescription>
             </div>
           </CardContent>
@@ -72,7 +72,7 @@ const ContactPage = () => {
               Contact Us
             </CardTitle>
             <CardDescription className="text-center">
-              We&aposd love to hear from you!
+              We/‘d love to hear from you!
             </CardDescription>
           </CardHeader>
           <CardContent>
