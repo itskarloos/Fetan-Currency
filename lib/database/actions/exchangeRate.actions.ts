@@ -13,6 +13,8 @@ const bankCollections = [
   "nbe_exchange_rates",
   "wegagen_bank_rates",
   "zemen_bank_rates",
+  "coop_bank_rates",
+  "oromia_bank_rates",
 ];
 
 // Cache object to store the latest rates

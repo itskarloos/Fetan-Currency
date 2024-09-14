@@ -105,6 +105,36 @@ export default function ExchangeTable({
                             </span>
                           </>
                         );
+                        case "coop_bank_rates":
+                          return (
+                            <>
+                              <Image
+                                src="/assets/BankImageAssets/coop.png"
+                                alt="Coop Bank"
+                                className="rounded-full"
+                                width={20}
+                                height={20}
+                              />
+                              <span className="text-xs md:text-sm">
+                                Coop Bank
+                              </span>
+                            </>
+                          );
+                      case "oromia_bank_rates":
+                        return (
+                          <>
+                            <Image
+                              src="/assets/BankImageAssets/oromia.png"
+                              alt="Oromia Bank"
+                              className="rounded-full"
+                              width={20}
+                              height={20}
+                            />
+                            <span className="text-xs md:text-sm">
+                              Oromia Bank
+                            </span>
+                          </>
+                        );
                       case "nbe_exchange_rates":
                         return (
                           <>
