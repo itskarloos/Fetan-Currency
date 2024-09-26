@@ -1,7 +1,8 @@
 "use server";
 import getExchangeRateModel from "../models/exchange_rate"; // Path to your generic model
 import { connectToDatabase } from "../index";
-import { cache } from "react";
+import { createClient } from "redis";
+import { promisify } from "util";
 
 // List of bank collections
 const bankCollections = [
@@ -17,13 +18,13 @@ const bankCollections = [
   "oromia_bank_rates",
 ];
 
-// Cache object to store the latest rates
-const ratesCache: {
-  [key: string]: { timestamp: Date; data: any };
-} = {};
+// Redis client setup
+const redisClient = createClient();
+const getAsync = promisify(redisClient.get).bind(redisClient);
+const setAsync = promisify(redisClient.set).bind(redisClient);
 
 // Cache expiration time (e.g., 5 minutes)
-const CACHE_EXPIRATION = 5 * 60 * 1000;
+const CACHE_EXPIRATION = 5 * 60; // in seconds
 
 // Function to get the NBE exchange rates without sorting
 export const getNBEExchangeRates = async (currencyCode?: string) => {
@@ -77,137 +78,85 @@ export const getNBEExchangeRates = async (currencyCode?: string) => {
   }
 };
 
-// export const getLatestBankRates = async (
-//   currencyCode?: string,
-//   bank?: string
-// ) => {
-//   try {
-//     // Ensure database connection is established
-//     await connectToDatabase();
+export const getLatestBankRates = async (
+  currencyCode?: string,
+  bank?: string,
+  bypassCache: boolean = false
+) => {
+  try {
+    await connectToDatabase();
 
-//     let banksToQuery = bank ? [bank] : bankCollections;
+    let banksToQuery = bank ? [bank] : bankCollections;
+    const cacheKey = `${currencyCode || "all"}_${bank || "all"}`;
 
-//     const latestRates = await Promise.all(
-//       banksToQuery.map(async (bankName) => {
-//         const BankModel = getExchangeRateModel(bankName);
-//         const latestRate = await BankModel.findOne()
-//           .sort({ timestamp: -1 })
-//           .limit(1);
-
-//         if (!latestRate) {
-//           return { bank: bankName, latestExchangeRate: null };
-//         }
-
-//         const formattedRates = latestRate.exchange_rates.reduce(
-//           (
-//             acc: Record<string, { cash_buying: number; cash_selling: number }>,
-//             rate: any
-//           ) => {
-//             if (
-//               !currencyCode ||
-//               rate.currency_code.toLowerCase() === currencyCode.toLowerCase()
-//             ) {
-//               acc[rate.currency_code] = {
-//                 cash_buying: parseFloat(rate.cash_buying),
-//                 cash_selling: parseFloat(rate.cash_selling),
-//               };
-//             }
-//             return acc;
-//           },
-//           {}
-//         );
-
-//         return {
-//           bank: bankName,
-//           timestamp: latestRate.timestamp,
-//           rates: formattedRates,
-//         };
-//       })
-//     );
-
-//     return latestRates;
-//   } catch (error) {
-//     console.error("Error fetching latest bank rates:", error);
-//     throw new Error("Failed to fetch latest bank rates");
-//   }
-// };
-
-export const getLatestBankRates = cache(
-  async (currencyCode?: string, bank?: string) => {
-    try {
-      await connectToDatabase();
-
-      let banksToQuery = bank ? [bank] : bankCollections;
-      const cacheKey = `${currencyCode || "all"}_${bank || "all"}`;
-
-      // Check if cached data is available and not expired
-      if (
-        ratesCache[cacheKey] &&
-        Date.now() - ratesCache[cacheKey].timestamp.getTime() < CACHE_EXPIRATION
-      ) {
+    // Check if cached data is available and not expired, unless bypassCache is true
+    if (!bypassCache) {
+      const cachedData = await getAsync(cacheKey);
+      if (cachedData) {
         console.log("Returning cached data");
-        return ratesCache[cacheKey].data;
+        return JSON.parse(cachedData);
       }
-
-      const latestRates = await Promise.all(
-        banksToQuery.map(async (bankName) => {
-          const BankModel = getExchangeRateModel(bankName);
-          console.log(`Querying ${bankName}...`);
-          const latestRate = await BankModel.findOne()
-            .sort({ timestamp: -1 })
-            .limit(1);
-
-          console.log(`Result for ${bankName}:`, latestRate);
-
-          if (!latestRate) {
-            return { bank: bankName, latestExchangeRate: null };
-          }
-
-          const formattedRates = latestRate.exchange_rates.reduce(
-            (
-              acc: Record<
-                string,
-                { cash_buying: number; cash_selling: number }
-              >,
-              rate: any
-            ) => {
-              if (
-                !currencyCode ||
-                rate.currency_code.toLowerCase() === currencyCode.toLowerCase()
-              ) {
-                acc[rate.currency_code] = {
-                  cash_buying: parseFloat(rate.cash_buying),
-                  cash_selling: parseFloat(rate.cash_selling),
-                };
-              }
-              return acc;
-            },
-            {}
-          );
-
-          return {
-            bank: bankName,
-            timestamp: latestRate.timestamp,
-            rates: formattedRates,
-          };
-        })
-      );
-
-      // Cache the fetched rates
-      ratesCache[cacheKey] = {
-        timestamp: new Date(),
-        data: latestRates,
-      };
-
-      console.log("Fetched rates:", JSON.stringify(latestRates, null, 2));
-
-      return latestRates;
-    } catch (error) {
-      console.error("Error fetching latest bank rates:", error);
-      throw new Error("Failed to fetch latest bank rates");
     }
+
+    const latestRates = await Promise.all(
+      banksToQuery.map(async (bankName) => {
+        const BankModel = getExchangeRateModel(bankName);
+        console.log(`Querying ${bankName}...`);
+        const latestRate = await BankModel.findOne()
+          .sort({ timestamp: -1 })
+          .limit(1);
+
+        console.log(`Result for ${bankName}:`, latestRate);
+
+        if (!latestRate) {
+          return { bank: bankName, latestExchangeRate: null };
+        }
+
+        const formattedRates = latestRate.exchange_rates.reduce(
+          (
+            acc: Record<string, { cash_buying: number; cash_selling: number }>,
+            rate: any
+          ) => {
+            if (
+              !currencyCode ||
+              rate.currency_code.toLowerCase() === currencyCode.toLowerCase()
+            ) {
+              acc[rate.currency_code] = {
+                cash_buying: parseFloat(rate.cash_buying),
+                cash_selling: parseFloat(rate.cash_selling),
+              };
+            }
+            return acc;
+          },
+          {}
+        );
+
+        return {
+          bank: bankName,
+          timestamp: latestRate.timestamp,
+          rates: formattedRates,
+        };
+      })
+    );
+
+    // Cache the fetched rates in Redis, unless bypassCache is true
+    if (!bypassCache) {
+      await setAsync(
+        cacheKey,
+        JSON.stringify(latestRates),
+        "EX",
+        CACHE_EXPIRATION
+      );
+    }
+
+    console.log("Fetched rates:", JSON.stringify(latestRates, null, 2));
+
+    return latestRates;
+  } catch (error) {
+    console.error("Error fetching latest bank rates:", error);
+    throw new Error("Failed to fetch latest bank rates");
   }
-);
+};
 
 export async function getAllDashenBankRates() {
   try {
