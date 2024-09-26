@@ -12,15 +12,16 @@ export function NavBar() {
       link: "/",
       icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
     },
-    {
-      name: "About",
-      link: "/about",
-      icon: <IconUser className="h-4 w-4 text-neutral-500 dark:text-white" />,
-    },
+
     {
       name: "Apis",
       link: "/apis",
       icon: <Webhook className="h-4 w-4 text-neutral-500 dark:text-white" />,
+    },
+    {
+      name: "About",
+      link: "/about",
+      icon: <IconUser className="h-4 w-4 text-neutral-500 dark:text-white" />,
     },
     {
       name: "Contact",
