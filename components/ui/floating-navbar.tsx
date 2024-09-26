@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   motion,
   AnimatePresence,
@@ -25,7 +25,17 @@ export const FloatingNav = ({
   className?: string;
 }) => {
   const { scrollYProgress } = useScroll();
-  const { theme, resolvedTheme } = useTheme();
+  const [themeValue, setThemeValue] = useState<string>("");
+  const { resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    if (resolvedTheme === "dark") {
+      setThemeValue("/assets/logo.png");
+    } else {
+      setThemeValue("/assets/fetan(dark).png");
+    }
+  }, [useTheme(), []]); // Add `useTheme` as a dependency
+
   const [visible, setVisible] = useState(true);
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
@@ -66,12 +76,8 @@ export const FloatingNav = ({
       >
         <Link href="/">
           <Image
-            key={resolvedTheme === "dark" ? "dark-logo" : "light-logo"}
-            src={
-              resolvedTheme === "dark"
-                ? "/assets/logo.png"
-                : "/assets/fetan(dark).png"
-            }
+            key={themeValue === "dark" ? "dark-logo" : "light-logo"}
+            src={themeValue}
             alt="logo"
             width={70}
             height={25}

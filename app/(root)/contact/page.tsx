@@ -44,7 +44,7 @@ const ContactPage = () => {
 
   return (
     // <HeroHighlight>
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 min-h-screen">
+    <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 pt-20 min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 p-5 w-full items-center justify-between">
         <Card className="relative h-[280px] md:h-[600px] md:w-max-[600px] overflow-hidden">
           <CardContent className="p-0">
